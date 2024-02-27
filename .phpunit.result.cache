@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":288:{a:2:{s:7:"defects";a:1:{s:62:"BS_BaseRepositoryTest::test_delete_returns_false_when_it_fails";i:3;}s:5:"times";a:2:{s:64:"BS_BaseRepositoryTest::test_delete_returns_true_when_it_succeeds";d:0.0089999999999999993;s:62:"BS_BaseRepositoryTest::test_delete_returns_false_when_it_fails";d:0;}}}

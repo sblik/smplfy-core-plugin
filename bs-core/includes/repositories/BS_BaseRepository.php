@@ -6,17 +6,25 @@
  * @template T
  */
 abstract class BS_BaseRepository {
-
 	/**
 	 * Override $entityType in repositories that extend this base repository
 	 * @var class-string<T>
 	 */
-	protected static $entityType;
+	protected $entityType;
 
 	/**
 	 * The associated gravity-forms form id
 	 */
-	protected static $formId;
+	protected $formId;
+
+	/**
+	 * Holds wrapper to gravity forms api
+	 */
+	protected GravityFormsApiWrapper $gravityFormsApi;
+
+	public function __construct( GravityFormsApiWrapper $gravityFormsApi ) {
+		$this->gravityFormsApi = $gravityFormsApi;
+	}
 
 	/**
 	 * Delete entry in Gravity Forms
@@ -25,8 +33,8 @@ abstract class BS_BaseRepository {
 	 *
 	 * @return bool Either true for success or a WP_Error instance.
 	 */
-	static function delete( $entryId ): bool {
-		return GFAPI::delete_entry( $entryId );
+	function delete( $entryId ): bool {
+		return $this->gravityFormsApi->delete_entry( $entryId );
 	}
 
 	/**
@@ -35,8 +43,8 @@ abstract class BS_BaseRepository {
 	 * @param  T  $entity
 	 *
 	 */
-	static function update( $entity ): void {
-		GFAPI::update_entry( $entity->formEntry );
+	function update( $entity ): void {
+		$this->gravityFormsApi->update_entry( $entity->formEntry );
 	}
 
 	/**
@@ -46,8 +54,8 @@ abstract class BS_BaseRepository {
 	 *
 	 * @return int Either the new Entry ID or a WP_Error instance.
 	 */
-	static function add( $entity ): int {
-		return GFAPI::add_entry( $entity->formEntry );
+	function add( $entity ): int {
+		return $this->gravityFormsApi->add_entry( $entity->formEntry );
 	}
 
 	/**
@@ -55,8 +63,8 @@ abstract class BS_BaseRepository {
 	 *
 	 * @return T|null
 	 */
-	static function get_one_for_current_user() {
-		return self::get_one_for_user( get_current_user_id() );
+	function get_one_for_current_user() {
+		return $this->get_one_for_user( get_current_user_id() );
 	}
 
 	/**
@@ -64,8 +72,8 @@ abstract class BS_BaseRepository {
 	 *
 	 * @return T|null
 	 */
-	public static function get_one_for_user( $userId ) {
-		return self::get_one( [ 'created_by' => $userId ] );
+	public function get_one_for_user( $userId ) {
+		return $this->get_one( [ 'created_by' => $userId ] );
 	}
 
 	/**
@@ -75,9 +83,9 @@ abstract class BS_BaseRepository {
 	 *
 	 * @return T|null
 	 */
-	static function get_one( array $filters ) {
+	public function get_one( array $filters ) {
 		try {
-			$retrieved_entries = self::get( $filters );
+			$retrieved_entries = $this->get( $filters );
 
 			if ( ! empty( $retrieved_entries ) ) {
 				return $retrieved_entries[0];
@@ -99,7 +107,7 @@ abstract class BS_BaseRepository {
 	 *
 	 * @return T[]
 	 */
-	private static function get( array $filters = null, string $direction = 'ASC', $paging = null ): array {
+	private function get( array $filters = null, string $direction = 'ASC', $paging = null ): array {
 		$searchCriteria = array();
 
 		if ( $filters != null ) {
@@ -119,13 +127,13 @@ abstract class BS_BaseRepository {
 			'is_numeric' => true,
 		);
 
-		$retrieved_entries = GFAPI::get_entries( static::$formId, $searchCriteria, $sorting, $paging );
+		$retrieved_entries = $this->gravityFormsApi->get_entries( $this->formId, $searchCriteria, $sorting, $paging );
 
 		if ( is_wp_error( $retrieved_entries ) ) {
 			return array();
 		}
 
-		return self::map_to_entities( $retrieved_entries );
+		return $this->map_to_entities( $retrieved_entries );
 	}
 
 	/**
@@ -135,10 +143,10 @@ abstract class BS_BaseRepository {
 	 *
 	 * @return T[]
 	 */
-	private static function map_to_entities( $formEntries ): array {
+	private function map_to_entities( $formEntries ): array {
 		$entities = [];
 		foreach ( $formEntries as $entry ) {
-			$entities[] = new static::$entityType( $entry );
+			$entities[] = new $this->entityType( $entry );
 		}
 
 		return $entities;
@@ -151,8 +159,8 @@ abstract class BS_BaseRepository {
 	 *
 	 * @return T|null
 	 */
-	static function get_one_by_id( $value ) {
-		return self::get_one( [ 'id' => $value ] );
+	public function get_one_by_id( $value ) {
+		return $this->get_one( [ 'id' => $value ] );
 	}
 
 	/**
@@ -163,9 +171,9 @@ abstract class BS_BaseRepository {
 	 *
 	 * @return T[]
 	 */
-	public static function get_all( array $filters = null, string $direction = 'ASC' ): array {
+	public function get_all( array $filters = null, string $direction = 'ASC' ): array {
 		$paging = array( 'offset' => 0, 'page_size' => 999999999999 );
 
-		return self::get( $filters, $direction, $paging );
+		return $this->get( $filters, $direction, $paging );
 	}
 }

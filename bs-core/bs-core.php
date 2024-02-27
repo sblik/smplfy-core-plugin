@@ -3,8 +3,8 @@
  * BS Core
  *
  * @package BS Core
- * @author Simplify Small Biz
- * @since 1.0.0
+ * @author  Simplify Small Biz
+ * @since   1.0.0
  *
  * @wordpress-plugin
  * Plugin Name: BS Core
@@ -12,12 +12,13 @@
  * Description: Core logic for a unified development approach across multiple plugins.
  * Author: Simplify Small Biz
  * Author URI: https://simplifybiz.com
- * Requires PHP: 7.3
+ * Requires PHP: 7.4
  */
 
 define( 'BS_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 require_once BS_CORE_PLUGIN_DIR . 'includes/bs-core-handle-plugin-activation.php';
+require_once BS_CORE_PLUGIN_DIR . 'includes/repositories/GravityFormsApiWrapper.php';
 require_once BS_CORE_PLUGIN_DIR . 'includes/repositories/BS_BaseRepository.php';
 
 
