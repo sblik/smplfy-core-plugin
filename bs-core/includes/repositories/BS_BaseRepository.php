@@ -71,7 +71,7 @@ abstract class BS_BaseRepository {
 	/**
 	 * Get the first entry matching the filter
 	 *
-	 * @param $filters array of key value pairs
+	 * @param $filters array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
 	 *
 	 * @return T|null
 	 */
@@ -93,7 +93,7 @@ abstract class BS_BaseRepository {
 	/**
 	 * Generic get method used by both get_one and get_all
 	 *
-	 * @param  array|null  $filters  array of key value pairs
+	 * @param  array|null  $filters  an array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
 	 * @param  string  $direction
 	 * @param  null  $paging
 	 *
@@ -158,7 +158,7 @@ abstract class BS_BaseRepository {
 	/**
 	 * Get all entries where the filters match
 	 *
-	 * @param  array|null  $filters
+	 * @param  array|null  $filters  an array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
 	 * @param  string  $direction
 	 *
 	 * @return T[]

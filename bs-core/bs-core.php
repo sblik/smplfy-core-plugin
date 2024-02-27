@@ -18,5 +18,7 @@
 define( 'BS_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 require_once BS_CORE_PLUGIN_DIR . 'includes/bs-core-handle-plugin-activation.php';
+require_once BS_CORE_PLUGIN_DIR . 'includes/repositories/BS_BaseRepository.php';
+
 
 register_activation_hook( __FILE__, 'bs_core_handle_plugin_activation' );
