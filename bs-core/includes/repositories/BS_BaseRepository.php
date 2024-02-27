@@ -29,32 +29,33 @@ abstract class BS_BaseRepository {
 	/**
 	 * Delete entry in Gravity Forms
 	 *
-	 * @param  mixed  $entryId
+	 * @param   mixed  $entryId
 	 *
-	 * @return bool Either true for success or a WP_Error instance.
+	 * @return bool|WP_Error Either true for success or a WP_Error instance.
 	 */
-	function delete( $entryId ): bool {
+	function delete( $entryId ) {
 		return $this->gravityFormsApi->delete_entry( $entryId );
 	}
 
 	/**
 	 * Updates an entire single Entry object in Gravity Forms.
 	 *
-	 * @param  T  $entity
+	 * @param   T  $entity
 	 *
+	 * @return true|WP_Error
 	 */
-	function update( $entity ): void {
-		$this->gravityFormsApi->update_entry( $entity->formEntry );
+	function update( $entity ) {
+		return $this->gravityFormsApi->update_entry( $entity->formEntry );
 	}
 
 	/**
 	 * Adds an entire single Entry object in Gravity Forms.
 	 *
-	 * @param  T  $entity
+	 * @param   T  $entity
 	 *
-	 * @return int Either the new Entry ID or a WP_Error instance.
+	 * @return int|WP_Error Either the new Entry ID or a WP_Error instance.
 	 */
-	function add( $entity ): int {
+	function add( $entity ) {
 		return $this->gravityFormsApi->add_entry( $entity->formEntry );
 	}
 
@@ -93,7 +94,8 @@ abstract class BS_BaseRepository {
 				return null;
 			}
 
-		} catch ( Exception $ex ) {
+		}
+		catch ( Exception $ex ) {
 			return null;
 		}
 	}
@@ -101,9 +103,9 @@ abstract class BS_BaseRepository {
 	/**
 	 * Generic get method used by both get_one and get_all
 	 *
-	 * @param  array|null  $filters  an array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
-	 * @param  string  $direction
-	 * @param  null  $paging
+	 * @param   array|null  $filters  an array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
+	 * @param   string      $direction
+	 * @param   null        $paging
 	 *
 	 * @return T[]
 	 */
@@ -166,8 +168,8 @@ abstract class BS_BaseRepository {
 	/**
 	 * Get all entries where the filters match
 	 *
-	 * @param  array|null  $filters  an array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
-	 * @param  string  $direction
+	 * @param   array|null  $filters  an array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
+	 * @param   string      $direction
 	 *
 	 * @return T[]
 	 */

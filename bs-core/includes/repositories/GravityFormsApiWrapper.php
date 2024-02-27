@@ -14,7 +14,7 @@ class GravityFormsApiWrapper {
 	 * @param $entry
 	 * @param $entryId
 	 *
-	 * @return array|true|WP_Error
+	 * @return true|WP_Error
 	 */
 	public function update_entry( $entry, $entryId = null ) {
 		return GFAPI::update_entry( $entry, $entryId );
