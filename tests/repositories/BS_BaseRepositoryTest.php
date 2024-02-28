@@ -2,15 +2,15 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../bs-core/includes/repositories/BS_BaseRepository.php';
 require_once __DIR__ . '/../../bs-core/includes/repositories/GravityFormsApiWrapper.php';
+require_once __DIR__ . '/TestConcreteEntity.php';
 require_once __DIR__ . '/TestConcreteRepository.php';
 require_once __DIR__ . '/../fakes/Fake_WP_Error.php';
 
 class BS_BaseRepositoryTest extends TestCase {
 	private $gravityFormsApiMock;
 	private TestConcreteRepository $repository;
-	private stdClass $mockEntity;
+	private TestConcreteEntity $entity;
 	private int $formId = 1;
 
 	/**
@@ -63,7 +63,7 @@ class BS_BaseRepositoryTest extends TestCase {
 		                          ->method( 'add_entry' )
 		                          ->willReturn( $mockId );
 		// Act
-		$result = $this->repository->add( $this->mockEntity );
+		$result = $this->repository->add( $this->entity );
 		// Assert
 		$this->assertEquals( $mockId, $result );
 	}
@@ -76,7 +76,7 @@ class BS_BaseRepositoryTest extends TestCase {
 		                          ->method( 'add_entry' )
 		                          ->willReturn( new WP_Error( $errorCode, $errorMessage ) );
 		// Act
-		$result = $this->repository->add( $this->mockEntity );
+		$result = $this->repository->add( $this->entity );
 		// Assert
 		$this->assertInstanceOf( WP_Error::class, $result );
 		$this->assertEquals( $errorCode, $result->get_error_code() );
@@ -90,10 +90,10 @@ class BS_BaseRepositoryTest extends TestCase {
 		// Arrange
 		$this->gravityFormsApiMock->expects( $this->once() )
 		                          ->method( 'update_entry' )
-		                          ->with( $this->equalTo( $this->mockEntity->formEntry ) )
+		                          ->with( $this->equalTo( $this->entity->formEntry ) )
 		                          ->willReturn( true );
 		// Act
-		$result = $this->repository->update( $this->mockEntity );
+		$result = $this->repository->update( $this->entity );
 		// Assert
 		$this->assertTrue( $result );
 	}
@@ -102,10 +102,10 @@ class BS_BaseRepositoryTest extends TestCase {
 		// Arrange
 		$this->gravityFormsApiMock->expects( $this->once() )
 		                          ->method( 'update_entry' )
-		                          ->with( $this->equalTo( $this->mockEntity->formEntry ) )
+		                          ->with( $this->equalTo( $this->entity->formEntry ) )
 		                          ->willReturn( false );
 		// Act
-		$result = $this->repository->update( $this->mockEntity );
+		$result = $this->repository->update( $this->entity );
 		// Assert
 		$this->assertFalse( $result );
 	}
@@ -116,10 +116,10 @@ class BS_BaseRepositoryTest extends TestCase {
 		$errorMessage = 'API Error';
 		$this->gravityFormsApiMock->expects( $this->once() )
 		                          ->method( 'update_entry' )
-		                          ->with( $this->equalTo( $this->mockEntity->formEntry ) )
+		                          ->with( $this->equalTo( $this->entity->formEntry ) )
 		                          ->willReturn( new WP_Error( $errorCode, $errorMessage ) );
 		// Act
-		$result = $this->repository->update( $this->mockEntity );
+		$result = $this->repository->update( $this->entity );
 		// Assert
 		$this->assertInstanceOf( WP_Error::class, $result );
 		$this->assertEquals( $errorCode, $result->get_error_code() );
@@ -148,8 +148,8 @@ class BS_BaseRepositoryTest extends TestCase {
 
 	public function test_get_one_returns_entity_when_something_matches_filters(): void {
 		// Arrange
-		$mockEntity1 = new stdClass();
-		$filters     = [ 'id' => '1' ];
+		$entity1 = new TestConcreteEntity();
+		$filters = [ 'id' => '1' ];
 		$this->gravityFormsApiMock->expects( $this->once() )
 		                          ->method( 'get_entries' )
 		                          ->with(
@@ -158,18 +158,18 @@ class BS_BaseRepositoryTest extends TestCase {
 			                          $this->anything(),
 			                          $this->anything()
 		                          )
-		                          ->willReturn( [ $mockEntity1 ] );
+		                          ->willReturn( [ $entity1->formEntry ] );
 		// Act
 		$result = $this->repository->get_one( $filters );
 		// Assert
-		$this->assertEquals( $mockEntity1, $result );
+		$this->assertEquals( $entity1, $result );
 	}
 
 	public function test_get_one_returns_first_entity_when_multiple_entries_match_filters(): void {
 		// Arrange
-		$filters     = [ 'created_by' => 'jane' ];
-		$mockEntity1 = new stdClass();
-		$mockEntity2 = new stdClass();
+		$filters = [ 'created_by' => 'jane' ];
+		$entity1 = new TestConcreteEntity();
+		$entity2 = new TestConcreteEntity();
 		$this->gravityFormsApiMock->expects( $this->once() )
 		                          ->method( 'get_entries' )
 		                          ->with(
@@ -178,17 +178,17 @@ class BS_BaseRepositoryTest extends TestCase {
 			                          $this->anything(),
 			                          $this->anything()
 		                          )
-		                          ->willReturn( [ $mockEntity1, $mockEntity2 ] );
+		                          ->willReturn( [ $entity1->formEntry, $entity2->formEntry ] );
 		// Act
 		$result = $this->repository->get_one( $filters );
 		// Assert
-		$this->assertEquals( $mockEntity1, $result );
+		$this->assertEquals( $entity1, $result );
 	}
 
 	public function test_get_one_returns_matching_entity_when_multiple_filters_are_provided(): void {
 		// Arrange
-		$filters   = [ 'created_by' => 'bobby', '1' => 'United States' ];
-		$mockEntry = new stdClass();
+		$filters = [ 'created_by' => 'bobby', '1' => 'United States' ];
+		$entity1 = new TestConcreteEntity();
 		$this->gravityFormsApiMock->expects( $this->once() )
 		                          ->method( 'get_entries' )
 		                          ->with(
@@ -197,11 +197,11 @@ class BS_BaseRepositoryTest extends TestCase {
 			                          $this->anything(),
 			                          $this->anything()
 		                          )
-		                          ->willReturn( [ $mockEntry ] );
+		                          ->willReturn( [ $entity1->formEntry ] );
 		// Act
 		$result = $this->repository->get_one( $filters );
 		// Assert
-		$this->assertEquals( $mockEntry, $result );
+		$this->assertEquals( $entity1, $result );
 	}
 
 	public function test_get_one_returns_null_when_api_throws_exception(): void {
@@ -216,10 +216,10 @@ class BS_BaseRepositoryTest extends TestCase {
 	}
 
 	protected function setUp(): void {
-		$this->gravityFormsApiMock   = $this->createMock( GravityFormsApiWrapper::class );
-		$this->repository            = new TestConcreteRepository( $this->gravityFormsApiMock );
-		$this->mockEntity            = new stdClass();
-		$this->mockEntity->formEntry = [];
+		$this->gravityFormsApiMock = $this->createMock( GravityFormsApiWrapper::class );
+		$this->repository          = new TestConcreteRepository( $this->gravityFormsApiMock );
+		$this->entity              = new TestConcreteEntity();
+		$this->entity->formEntry   = [];
 	}
 }
 
