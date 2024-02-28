@@ -19,6 +19,7 @@ define( 'BS_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 require_once BS_CORE_PLUGIN_DIR . 'includes/bs-core-handle-plugin-activation.php';
 require_once BS_CORE_PLUGIN_DIR . 'includes/repositories/GravityFormsApiWrapper.php';
+require_once BS_CORE_PLUGIN_DIR . 'includes/entities/BS_BaseEntity.php';
 require_once BS_CORE_PLUGIN_DIR . 'includes/repositories/BS_BaseRepository.php';
 
 
