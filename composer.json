@@ -1,5 +1,7 @@
 {
   "name": "sblik/bs-core-plugin",
+  "description": "Core logic for a unified development approach across multiple plugins",
+  "license": "proprietary",
   "authors": [
     {
       "name": "jaydp",

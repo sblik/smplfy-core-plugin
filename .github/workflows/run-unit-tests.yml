@@ -1,4 +1,4 @@
-name: PHPUnit
+name: Unit Tests
 
 on: [ push ]
 
@@ -14,7 +14,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
-          extensions: mbstring, xml # Add extensions if needed
+          extensions: mbstring, xml
           coverage: none
 
       - name: Validate composer.json and composer.lock
