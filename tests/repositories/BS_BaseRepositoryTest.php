@@ -6,9 +6,12 @@ require_once '../../bs-core/includes/repositories/BS_BaseRepository.php';
 require_once '../../bs-core/includes/repositories/GravityFormsApiWrapper.php';
 require_once getenv( 'WP_PATH' ) . '/wp-includes/class-wp-error.php';
 require_once getenv( 'WP_PATH' ) . '/wp-includes/plugin.php';
+require_once getenv( 'WP_PATH' ) . '/wp-includes/load.php';
 
 class TestConcreteRepository extends BS_BaseRepository {
 	public function __construct( GravityFormsApiWrapper $gravityFormsApi ) {
+		$this->formId     = 1;
+		$this->entityType = stdClass::class;
 		parent::__construct( $gravityFormsApi );
 	}
 }
@@ -17,6 +20,7 @@ class BS_BaseRepositoryTest extends TestCase {
 	private $gravityFormsApiMock;
 	private TestConcreteRepository $repository;
 	private stdClass $mockEntity;
+	private int $formId = 1;
 
 	/**
 	 * @group delete
@@ -131,10 +135,112 @@ class BS_BaseRepositoryTest extends TestCase {
 		$this->assertEquals( $errorMessage, $result->get_error_message() );
 	}
 
+	/**
+	 * @group get_one
+	 */
+	public function test_get_one_returns_null_when_nothing_matches_filters(): void {
+		// Arrange
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( [ 'status' => 'active' ] ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [] );
+		// Act
+		$result = $this->repository->get_one( [] );
+		// Assert
+		$this->assertNull( $result );
+	}
+
+	public function test_get_one_returns_entity_when_something_matches_filters(): void {
+		// Arrange
+		$mockEntity1 = new stdClass();
+		$filters     = [ 'id' => '1' ];
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( get_expected_filters( $filters ) ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [ $mockEntity1 ] );
+		// Act
+		$result = $this->repository->get_one( $filters );
+		// Assert
+		$this->assertEquals( $mockEntity1, $result );
+	}
+
+	public function test_get_one_returns_first_entity_when_multiple_entries_match_filters(): void {
+		// Arrange
+		$filters     = [ 'created_by' => 'jane' ];
+		$mockEntity1 = new stdClass();
+		$mockEntity2 = new stdClass();
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( get_expected_filters( $filters ) ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [ $mockEntity1, $mockEntity2 ] );
+		// Act
+		$result = $this->repository->get_one( $filters );
+		// Assert
+		$this->assertEquals( $mockEntity1, $result );
+	}
+
+	public function test_get_one_returns_matching_entity_when_multiple_filters_are_provided(): void {
+		// Arrange
+		$filters   = [ 'created_by' => 'bobby', '1' => 'United States' ];
+		$mockEntry = new stdClass();
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( get_expected_filters( $filters ) ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [ $mockEntry ] );
+		// Act
+		$result = $this->repository->get_one( $filters );
+		// Assert
+		$this->assertEquals( $mockEntry, $result );
+	}
+
+	public function test_get_one_returns_null_when_api_throws_exception(): void {
+		// Arrange
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->willThrowException( new Exception() );
+		// Act
+		$result = $this->repository->get_one( [ 'id' => '1' ] );
+		// Assert
+		$this->assertNull( $result );
+	}
+
 	protected function setUp(): void {
 		$this->gravityFormsApiMock   = $this->createMock( GravityFormsApiWrapper::class );
 		$this->repository            = new TestConcreteRepository( $this->gravityFormsApiMock );
 		$this->mockEntity            = new stdClass();
 		$this->mockEntity->formEntry = [];
 	}
+}
+
+
+function get_expected_filters( $filters ): array {
+	$expected_filters = [];
+	foreach ( $filters as $key => $value ) {
+		$expected_filters[] = [ 'key' => $key, 'value' => $value ];
+	}
+
+	return [
+		'status'        => 'active',
+		'field_filters' => $expected_filters,
+	];
 }
