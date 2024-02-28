@@ -2,19 +2,10 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once '../../bs-core/includes/repositories/BS_BaseRepository.php';
-require_once '../../bs-core/includes/repositories/GravityFormsApiWrapper.php';
-require_once getenv( 'WP_PATH' ) . '/wp-includes/class-wp-error.php';
-require_once getenv( 'WP_PATH' ) . '/wp-includes/plugin.php';
-require_once getenv( 'WP_PATH' ) . '/wp-includes/load.php';
-
-class TestConcreteRepository extends BS_BaseRepository {
-	public function __construct( GravityFormsApiWrapper $gravityFormsApi ) {
-		$this->formId     = 1;
-		$this->entityType = stdClass::class;
-		parent::__construct( $gravityFormsApi );
-	}
-}
+require_once __DIR__ . '/../../bs-core/includes/repositories/BS_BaseRepository.php';
+require_once __DIR__ . '/../../bs-core/includes/repositories/GravityFormsApiWrapper.php';
+require_once __DIR__ . '/TestConcreteRepository.php';
+require_once __DIR__ . '/../fakes/Fake_WP_Error.php';
 
 class BS_BaseRepositoryTest extends TestCase {
 	private $gravityFormsApiMock;
