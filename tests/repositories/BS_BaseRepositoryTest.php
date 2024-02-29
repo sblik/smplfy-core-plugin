@@ -38,7 +38,7 @@ class BS_BaseRepositoryTest extends TestCase {
 		$this->assertFalse( $result );
 	}
 
-	public function test_delete_throws_exception_when_api_throws(): void {
+	public function test_delete_throws_error_when_api_throws(): void {
 		// Arrange
 		$errorCode    = 'error';
 		$errorMessage = 'API Error';
@@ -68,7 +68,7 @@ class BS_BaseRepositoryTest extends TestCase {
 		$this->assertEquals( $mockId, $result );
 	}
 
-	public function add_throws_exception_when_api_throws(): void {
+	public function add_throws_error_when_api_throws(): void {
 		// Arrange
 		$errorCode    = 'error';
 		$errorMessage = 'API Error';
@@ -215,6 +215,61 @@ class BS_BaseRepositoryTest extends TestCase {
 		$this->assertNull( $result );
 	}
 
+	/**
+	 * @group get_all
+	 */
+	public function test_get_all_returns_entities_when_entries_match_filters(): void {
+		// Arrange
+		$entity1 = new TestConcreteEntity();
+		$entity2 = new TestConcreteEntity();
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( [ 'status' => 'active' ] ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [ $entity1->formEntry, $entity2->formEntry ] );
+		// Act
+		$result = $this->repository->get_all( [] );
+		// Assert
+		$this->assertIsArray( $result );
+		$this->assertCount( 2, $result );
+		$this->assertEquals( $entity1, $result[0] );
+		$this->assertEquals( $entity2, $result[1] );
+	}
+
+	public function test_get_all_returns_empty_array_when_no_entries_match_filters(): void {
+		// Arrange
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( [ 'status' => 'active' ] ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [] );
+		// Act
+		$result = $this->repository->get_all( [] );
+		// Assert
+		$this->assertIsArray( $result );
+		$this->assertCount( 0, $result );
+	}
+
+	public function test_get_all_returns_empty_array_when_api_throws_exception(): void {
+		// Arrange
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->willReturn( new WP_Error( 'error', 'error message' ) );
+		// Act
+		$result = $this->repository->get_all( [] );
+		// Assert
+		$this->assertIsArray( $result );
+		$this->assertCount( 0, $result );
+	}
+
 	protected function setUp(): void {
 		$this->gravityFormsApiMock = $this->createMock( GravityFormsApiWrapper::class );
 		$this->repository          = new TestConcreteRepository( $this->gravityFormsApiMock );
@@ -222,7 +277,6 @@ class BS_BaseRepositoryTest extends TestCase {
 		$this->entity->formEntry   = [];
 	}
 }
-
 
 function get_expected_filters( $filters ): array {
 	$expected_filters = [];
