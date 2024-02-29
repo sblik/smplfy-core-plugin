@@ -54,7 +54,7 @@ class BS_BaseEntityTest extends TestCase {
 		$entity->property1 = 'new value';
 		// Assert
 		$this->assertEquals( 'new value', $entity->property1 );
-		$this->assertEquals( 'new value', $entity->formEntry[2] );
+		$this->assertEquals( 'new value', $entity->formEntry[1] );
 	}
 
 	public function test_set_property_value_that_is_not_mapped_throws_exception(): void {
