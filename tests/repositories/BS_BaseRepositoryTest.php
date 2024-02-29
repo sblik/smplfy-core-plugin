@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../bs-core/includes/repositories/GravityFormsApiWrap
 require_once __DIR__ . '/TestConcreteEntity.php';
 require_once __DIR__ . '/TestConcreteRepository.php';
 require_once __DIR__ . '/../fakes/Fake_WP_Error.php';
+require_once __DIR__ . '/../fakes/wp-fake-functions.php';
 
 class BS_BaseRepositoryTest extends TestCase {
 	private $gravityFormsApiMock;
@@ -268,6 +269,126 @@ class BS_BaseRepositoryTest extends TestCase {
 		// Assert
 		$this->assertIsArray( $result );
 		$this->assertCount( 0, $result );
+	}
+
+	/**
+	 * @group get_one_by_id
+	 */
+	public function test_get_one_by_id_returns_null_when_nothing_matches_filters(): void {
+		// Arrange
+		$filters = [ 'id' => '1' ];
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( get_expected_filters( $filters ) ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [] );
+		// Act
+		$result = $this->repository->get_one_by_id( '1' );
+		// Assert
+		$this->assertNull( $result );
+	}
+
+	public function test_get_one_by_id_returns_entity_when_something_matches_filters(): void {
+		// Arrange
+		$entity1 = new TestConcreteEntity();
+		$filters = [ 'id' => '1' ];
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( get_expected_filters( $filters ) ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [ $entity1->formEntry ] );
+		// Act
+		$result = $this->repository->get_one_by_id( '1' );
+		// Assert
+		$this->assertEquals( $entity1, $result );
+	}
+
+	/**
+	 * @group get_one_for_user
+	 */
+	public function test_get_one_for_user_returns_null_when_nothing_matches_filters(): void {
+		// Arrange
+		$filters = [ 'created_by' => 1 ];
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( get_expected_filters( $filters ) ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [] );
+		// Act
+		$result = $this->repository->get_one_for_user( 1 );
+		// Assert
+		$this->assertNull( $result );
+	}
+
+	public function test_get_one_for_user_returns_entity_when_something_matches_filters(): void {
+		// Arrange
+		$entity1 = new TestConcreteEntity();
+		$filters = [ 'created_by' => 1 ];
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( get_expected_filters( $filters ) ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [ $entity1->formEntry ] );
+		// Act
+		$result = $this->repository->get_one_for_user( 1 );
+		// Assert
+		$this->assertEquals( $entity1, $result );
+	}
+
+	/**
+	 * @group get_one_for_current_user
+	 */
+	public function test_get_one_for_current_user_returns_null_when_nothing_matches_filters(): void {
+		// Arrange
+		$filters = [ 'created_by' => 1 ];
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( get_expected_filters( $filters ) ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [] );
+		// Act
+		$result = $this->repository->get_one_for_current_user();
+		// Assert
+		$this->assertNull( $result );
+	}
+
+	public function test_get_one_for_current_user_returns_entity_when_something_matches_filters(): void {
+		// Arrange
+		$entity1 = new TestConcreteEntity();
+		$filters = [ 'created_by' => 1 ];
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( get_expected_filters( $filters ) ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [ $entity1->formEntry ] );
+		// Act
+		$result = $this->repository->get_one_for_current_user();
+		// Assert
+		$this->assertEquals( $entity1, $result );
 	}
 
 	protected function setUp(): void {
