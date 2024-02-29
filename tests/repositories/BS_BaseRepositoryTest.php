@@ -5,8 +5,6 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../bs-core/includes/repositories/GravityFormsApiWrapper.php';
 require_once __DIR__ . '/TestConcreteEntity.php';
 require_once __DIR__ . '/TestConcreteRepository.php';
-require_once __DIR__ . '/../fakes/Fake_WP_Error.php';
-require_once __DIR__ . '/../fakes/wp-fake-functions.php';
 
 class BS_BaseRepositoryTest extends TestCase {
 	private $gravityFormsApiMock;
