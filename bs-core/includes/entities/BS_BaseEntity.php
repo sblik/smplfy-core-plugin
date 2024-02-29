@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/GravityFormsKeys.php';
+
 /**
  * This generic entity class can be extended as a way to automatically map the properties of a class to the keys of a gravity forms entry
  * By implementing the get_property_map method on your child class, you can define the mapping for example
@@ -85,11 +87,16 @@ abstract class BS_BaseEntity {
 	 * @param $value
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	public function __set( $property, $value ): void {
 		$propertyMap = $this->get_all_property_map();
 
-		$this->formEntry[ $propertyMap[ $property ] ] = $value;
+		try {
+			$this->formEntry[ $propertyMap[ $property ] ] = $value;
+		} catch ( Exception $e ) {
+			throw new Exception( "Cannot set non-existing property: $property" );
+		}
 	}
 
 	/**
@@ -102,9 +109,9 @@ abstract class BS_BaseEntity {
 			'id'                 => 'id',
 			'formId'             => 'form_id',
 			'createdBy'          => 'created_by',
-			'parentKey'          => GPNF_Entry::ENTRY_PARENT_KEY,
-			'parentFormKey'      => GPNF_Entry::ENTRY_PARENT_FORM_KEY,
-			'nestedFormFieldKey' => GPNF_Entry::ENTRY_NESTED_FORM_FIELD_KEY,
+			'parentKey'          => GravityFormsKeys::ENTRY_PARENT_KEY,
+			'parentFormKey'      => GravityFormsKeys::ENTRY_PARENT_FORM_KEY,
+			'nestedFormFieldKey' => GravityFormsKeys::ENTRY_NESTED_FORM_FIELD_KEY,
 		);
 
 		return array_merge( $this->get_property_map(), $defaultProperties );

@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../../bs-core/includes/entities/BS_BaseEntity.php';
 
 class TestConcreteEntity extends BS_BaseEntity {
+	public string $definedProperty;
 	private array $propertyMap;
 
 	public function __construct( $propertyMap = array(), $formEntry = array() ) {
