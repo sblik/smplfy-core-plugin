@@ -18,7 +18,7 @@
 define( 'SMP_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 require_once SMP_CORE_PLUGIN_DIR . 'includes/smp-core-handle-plugin-activation.php';
-require_once SMP_CORE_PLUGIN_DIR . 'includes/repositories/GravityFormsApiWrapper.php';
+require_once SMP_CORE_PLUGIN_DIR . 'includes/gravity-forms/GravityFormsApiWrapper.php';
 require_once SMP_CORE_PLUGIN_DIR . 'includes/entities/SMP_BaseEntity.php';
 require_once SMP_CORE_PLUGIN_DIR . 'includes/repositories/SMP_BaseRepository.php';
 

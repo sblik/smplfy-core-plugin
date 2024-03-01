@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/GravityFormsKeys.php';
+require_once __DIR__ . '/../gravity-forms/GravityFormsKeys.php';
 
 /**
  * This generic entity class can be extended as a way to automatically map the properties of a class to the keys of a gravity forms entry
