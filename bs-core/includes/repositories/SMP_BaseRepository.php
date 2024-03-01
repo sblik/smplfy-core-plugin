@@ -2,10 +2,10 @@
 
 /**
  * This base repository serves as mechanism to perform CRUD operations on Gravity Forms entries
- * The BS_BaseRepository class has default methods for all repositories that extend it
+ * The SMP_BaseRepository class has default methods for all repositories that extend it
  * @template T
  */
-abstract class BS_BaseRepository {
+abstract class SMP_BaseRepository {
 	/**
 	 * Override $entityType in repositories that extend this base repository
 	 * @var class-string<T>
@@ -29,7 +29,7 @@ abstract class BS_BaseRepository {
 	/**
 	 * Delete entry in Gravity Forms
 	 *
-	 * @param   mixed  $entryId
+	 * @param  mixed  $entryId
 	 *
 	 * @return bool|WP_Error Either true for success or a WP_Error instance.
 	 */
@@ -40,7 +40,7 @@ abstract class BS_BaseRepository {
 	/**
 	 * Updates an entire single Entry object in Gravity Forms.
 	 *
-	 * @param   T  $entity
+	 * @param  T  $entity
 	 *
 	 * @return true|WP_Error
 	 */
@@ -51,7 +51,7 @@ abstract class BS_BaseRepository {
 	/**
 	 * Adds an entire single Entry object in Gravity Forms.
 	 *
-	 * @param   T  $entity
+	 * @param  T  $entity
 	 *
 	 * @return int|WP_Error Either the new Entry ID or a WP_Error instance.
 	 */
@@ -94,8 +94,7 @@ abstract class BS_BaseRepository {
 				return null;
 			}
 
-		}
-		catch ( Exception $ex ) {
+		} catch ( Exception $ex ) {
 			return null;
 		}
 	}
@@ -103,9 +102,9 @@ abstract class BS_BaseRepository {
 	/**
 	 * Generic get method used by both get_one and get_all
 	 *
-	 * @param   array|null  $filters  an array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
-	 * @param   string      $direction
-	 * @param   null        $paging
+	 * @param  array|null  $filters  an array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
+	 * @param  string  $direction
+	 * @param  null  $paging
 	 *
 	 * @return T[]
 	 */
@@ -168,8 +167,8 @@ abstract class BS_BaseRepository {
 	/**
 	 * Get all entries where the filters match
 	 *
-	 * @param   array|null  $filters  an array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
-	 * @param   string      $direction
+	 * @param  array|null  $filters  an array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
+	 * @param  string  $direction
 	 *
 	 * @return T[]
 	 */

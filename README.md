@@ -1,4 +1,4 @@
-# bs-core-plugin
+# smp-core-plugin
 
 Core logic for a unified development approach across multiple plugins
 

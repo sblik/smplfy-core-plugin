@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../bs-core/includes/repositories/GravityFormsApiWrap
 require_once __DIR__ . '/../entities/TestConcreteEntity.php';
 require_once __DIR__ . '/TestConcreteRepository.php';
 
-class BS_BaseRepositoryTest extends TestCase {
+class SMP_BaseRepositoryTest extends TestCase {
 	private $gravityFormsApiMock;
 	private TestConcreteRepository $repository;
 	private TestConcreteEntity $entity;

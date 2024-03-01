@@ -22,7 +22,7 @@ require_once __DIR__ . '/GravityFormsKeys.php';
  * @property $nestedFormFieldKey
  *
  */
-abstract class BS_BaseEntity {
+abstract class SMP_BaseEntity {
 	/**
 	 * Represents the gravity forms entry
 	 * @var  $formEntry

@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../../bs-core/includes/entities/BS_BaseEntity.php';
 require_once __DIR__ . '/TestConcreteEntityBuilder.php';
 
-class BS_BaseEntityTest extends TestCase {
+class SMP_BaseEntityTest extends TestCase {
 	/**
 	 * @group get_field_id
 	 */
