@@ -6,15 +6,14 @@ use PHPUnit\Framework\TestCase;
 
 class SMP_RequireTest extends TestCase {
 
-	private $require;
-	private $pluginDirectory;
+	private SMP_Require $require;
 
 	/**
 	 * @group directory
 	 */
 	public function test_require_directory_correctly_requires_all_files(): void {
 		// Arrange
-		$dir = '/require-dependencies'; // Set this to a test directory within your plugin directory
+		$dir = '/require-dependencies';
 		// Act
 		$this->require->directory( $dir );
 		$result1 = test_dependency_one();
@@ -27,7 +26,6 @@ class SMP_RequireTest extends TestCase {
 	public function test_directory_with_invalid_dir(): void {
 		// Arrange
 		$dir = '/invalidDir';
-
 		// Act and Assert
 		$this->expectException( Exception::class );
 		$this->expectExceptionMessageMatches( '/^Directory not found:/' );
@@ -50,7 +48,6 @@ class SMP_RequireTest extends TestCase {
 	public function test_require_file_with_invalid_file_throws_exception(): void {
 		// Arrange
 		$filePath = '/invalidFile.php';
-
 		// Act and Assert
 		$this->expectException( Exception::class );
 		$this->expectExceptionMessageMatches( '/^File not found:/' );
@@ -58,7 +55,7 @@ class SMP_RequireTest extends TestCase {
 	}
 
 	protected function setUp(): void {
-		$this->pluginDirectory = __DIR__;
-		$this->require         = new SMP_Require( $this->pluginDirectory );
+		$pluginDirectory = __DIR__;
+		$this->require   = new SMP_Require( $pluginDirectory );
 	}
 }
