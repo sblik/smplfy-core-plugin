@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../bs-core/includes/repositories/SMP_BaseRepository.php';
+require_once __DIR__ . '/../../smp-core/includes/repositories/SMP_BaseRepository.php';
 
 class TestConcreteRepository extends SMP_BaseRepository {
 	public function __construct( GravityFormsApiWrapper $gravityFormsApi ) {

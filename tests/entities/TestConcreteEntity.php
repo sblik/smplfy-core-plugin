@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../bs-core/includes/entities/BS_BaseEntity.php';
+require_once __DIR__ . '/../../smp-core/includes/entities/SMP_BaseEntity.php';
 
 class TestConcreteEntity extends SMP_BaseEntity {
 	public string $definedProperty;
