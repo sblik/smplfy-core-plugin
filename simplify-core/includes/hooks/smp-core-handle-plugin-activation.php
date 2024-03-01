@@ -2,7 +2,7 @@
 
 function smp_core_handle_plugin_activation() {
 	$muPluginsDir = WP_CONTENT_DIR . '/mu-plugins';
-	$loaderFile   = $muPluginsDir . '/smp-core-loader.php';
+	$loaderFile   = $muPluginsDir . '/simplify-core-loader.php';
 
 	/*
 	 * The mu-plugins directory is a special directory in WordPress that is always loaded first
@@ -19,11 +19,12 @@ function smp_core_handle_plugin_activation() {
 	if ( ! file_exists( $loaderFile ) ) {
 		$fileContent = "<?php\n\n";
 		$fileContent .= "/**\n";
-		$fileContent .= " * Plugin Name: SMP Core Loader\n";
-		$fileContent .= " * Description: Ensures that the SMP Core plugin is loaded before all other plugins\n";
+		$fileContent .= " * Plugin Name: Simplify Core Loader\n";
+		$fileContent .= " * Description: Ensures that the Simplify Core plugin is loaded before all other plugins\n";
 		$fileContent .= " */\n";
-		$fileContent .= "require_once WP_PLUGIN_DIR  . '/smp-core/smp-core.php';\n";
+		$fileContent .= "require_once WP_PLUGIN_DIR  . '/simplify-core/simplify-core.php';\n";
 
 		file_put_contents( $loaderFile, $fileContent );
 	}
 }
+

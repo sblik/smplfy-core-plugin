@@ -1,0 +1,30 @@
+<?php
+/**
+ * Simplify Core
+ *
+ * @package SMP Core
+ * @author  Simplify Small Biz
+ * @since   1.0.0
+ *
+ * @wordpress-plugin
+ * Plugin Name: Simplify Core
+ * Version: 1.0.0
+ * Description: Core logic for a unified development approach across multiple plugins.
+ * Author: Simplify Small Biz
+ * Author URI: https://simplifybiz.com
+ * Requires PHP: 7.4
+ */
+
+define( 'SMP_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+
+require_once SMP_CORE_PLUGIN_DIR . 'includes/utilities/SMP_Require.php';
+$require = new SMP_Require( SMP_CORE_PLUGIN_DIR );
+
+$require->directory( 'includes/hooks' );
+$require->directory( 'includes/entities' );
+$require->directory( 'includes/gravity-forms' );
+$require->directory( 'includes/repositories' );
+$require->directory( 'includes/utilities' );
+
+register_activation_hook( __FILE__, 'smp_core_handle_plugin_activation' );
+

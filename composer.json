@@ -1,10 +1,10 @@
 {
-  "name": "sblik/bs-core-plugin",
+  "name": "sblik/simplify-core-plugin",
   "description": "Core logic for a unified development approach across multiple plugins",
   "license": "proprietary",
   "authors": [
     {
-      "name": "jaydp",
+      "name": "simplify small biz",
       "email": "jayd@maximasoftware.com"
     }
   ],

@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../smp-core/includes/entities/SMP_BaseEntity.php';
+require_once __DIR__ . '/../../simplify-core/includes/entities/SMP_BaseEntity.php';
 require_once __DIR__ . '/TestConcreteEntityBuilder.php';
 
 class SMP_BaseEntityTest extends TestCase {

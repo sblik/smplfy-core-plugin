@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../smp-core/includes/utilities/SMP_Require.php';
+require_once __DIR__ . '/../../simplify-core/includes/utilities/SMP_Require.php';
 
 use PHPUnit\Framework\TestCase;
 
