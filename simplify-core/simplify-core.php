@@ -20,11 +20,16 @@ define( 'SMP_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 require_once SMP_CORE_PLUGIN_DIR . 'includes/utilities/SMP_Require.php';
 $require = new SMP_Require( SMP_CORE_PLUGIN_DIR );
 
-$require->directory( 'includes/hooks' );
-$require->directory( 'includes/entities' );
-$require->directory( 'includes/gravity-forms' );
-$require->directory( 'includes/repositories' );
-$require->directory( 'includes/utilities' );
+try {
+	$require->directory( 'includes/hooks' );
+	$require->directory( 'includes/entities' );
+	$require->directory( 'includes/gravity-forms' );
+	$require->directory( 'includes/repositories' );
+	$require->directory( 'includes/utilities' );
+} catch ( Exception $e ) {
+	error_log( $e->getMessage() );
+}
+
 
 register_activation_hook( __FILE__, 'smp_core_handle_plugin_activation' );
 

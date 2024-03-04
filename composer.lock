@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c6b98fb10a1abdb302704dcf2b4fdfa",
+    "content-hash": "35404ae89513e62f827e5663e566938b",
     "packages": [],
     "packages-dev": [
         {
@@ -463,24 +463,24 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "v1.18.0",
+            "version": "v1.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "d4f454f7e1193933f04e6500de3e79191648ed0c"
+                "reference": "67a759e7d8746d501c41536ba40cd9c0a07d6a87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/d4f454f7e1193933f04e6500de3e79191648ed0c",
-                "reference": "d4f454f7e1193933f04e6500de3e79191648ed0c",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/67a759e7d8746d501c41536ba40cd9c0a07d6a87",
+                "reference": "67a759e7d8746d501c41536ba40cd9c0a07d6a87",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.2 || ^2.0",
                 "php": "^7.2 || 8.0.* || 8.1.* || 8.2.* || 8.3.*",
                 "phpdocumentor/reflection-docblock": "^5.2",
-                "sebastian/comparator": "^3.0 || ^4.0 || ^5.0",
-                "sebastian/recursion-context": "^3.0 || ^4.0 || ^5.0"
+                "sebastian/comparator": "^3.0 || ^4.0 || ^5.0 || ^6.0",
+                "sebastian/recursion-context": "^3.0 || ^4.0 || ^5.0 || ^6.0"
             },
             "require-dev": {
                 "phpspec/phpspec": "^6.0 || ^7.0",
@@ -526,9 +526,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phpspec/prophecy/issues",
-                "source": "https://github.com/phpspec/prophecy/tree/v1.18.0"
+                "source": "https://github.com/phpspec/prophecy/tree/v1.19.0"
             },
-            "time": "2023-12-07T16:22:33+00:00"
+            "time": "2024-02-29T11:52:51+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -1173,16 +1173,16 @@
         },
         {
             "name": "sebastian/diff",
-            "version": "4.0.5",
+            "version": "4.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "74be17022044ebaaecfdf0c5cd504fc9cd5a7131"
+                "reference": "ba01945089c3a293b01ba9badc29ad55b106b0bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/74be17022044ebaaecfdf0c5cd504fc9cd5a7131",
-                "reference": "74be17022044ebaaecfdf0c5cd504fc9cd5a7131",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/ba01945089c3a293b01ba9badc29ad55b106b0bc",
+                "reference": "ba01945089c3a293b01ba9badc29ad55b106b0bc",
                 "shasum": ""
             },
             "require": {
@@ -1227,7 +1227,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/diff/issues",
-                "source": "https://github.com/sebastianbergmann/diff/tree/4.0.5"
+                "source": "https://github.com/sebastianbergmann/diff/tree/4.0.6"
             },
             "funding": [
                 {
@@ -1235,7 +1235,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-07T05:35:17+00:00"
+            "time": "2024-03-02T06:30:58+00:00"
         },
         {
             "name": "sebastian/environment",
@@ -1302,16 +1302,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "4.0.5",
+            "version": "4.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "ac230ed27f0f98f597c8a2b6eb7ac563af5e5b9d"
+                "reference": "78c00df8f170e02473b682df15bfcdacc3d32d72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/ac230ed27f0f98f597c8a2b6eb7ac563af5e5b9d",
-                "reference": "ac230ed27f0f98f597c8a2b6eb7ac563af5e5b9d",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/78c00df8f170e02473b682df15bfcdacc3d32d72",
+                "reference": "78c00df8f170e02473b682df15bfcdacc3d32d72",
                 "shasum": ""
             },
             "require": {
@@ -1367,7 +1367,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/4.0.5"
+                "source": "https://github.com/sebastianbergmann/exporter/tree/4.0.6"
             },
             "funding": [
                 {
@@ -1375,7 +1375,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-09-14T06:03:37+00:00"
+            "time": "2024-03-02T06:33:00+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -1776,16 +1776,16 @@
         },
         {
             "name": "theseer/tokenizer",
-            "version": "1.2.2",
+            "version": "1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "b2ad5003ca10d4ee50a12da31de12a5774ba6b96"
+                "reference": "737eda637ed5e28c3413cb1ebe8bb52cbf1ca7a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/b2ad5003ca10d4ee50a12da31de12a5774ba6b96",
-                "reference": "b2ad5003ca10d4ee50a12da31de12a5774ba6b96",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/737eda637ed5e28c3413cb1ebe8bb52cbf1ca7a2",
+                "reference": "737eda637ed5e28c3413cb1ebe8bb52cbf1ca7a2",
                 "shasum": ""
             },
             "require": {
@@ -1814,7 +1814,7 @@
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
             "support": {
                 "issues": "https://github.com/theseer/tokenizer/issues",
-                "source": "https://github.com/theseer/tokenizer/tree/1.2.2"
+                "source": "https://github.com/theseer/tokenizer/tree/1.2.3"
             },
             "funding": [
                 {
@@ -1822,7 +1822,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-11-20T00:12:19+00:00"
+            "time": "2024-03-03T12:36:25+00:00"
         },
         {
             "name": "webmozart/assert",
