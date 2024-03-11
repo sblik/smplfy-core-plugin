@@ -1,13 +1,13 @@
 <?php
 /**
- * Simplify Core
+ * Smplfy Core
  *
  * @package SMP Core
  * @author  Simplify Small Biz
  * @since   1.0.0
  *
  * @wordpress-plugin
- * Plugin Name: Simplify Core
+ * Plugin Name: Smplfy Core
  * Version: 1.0.0
  * Description: Core logic for a unified development approach across multiple plugins.
  * Author: Simplify Small Biz

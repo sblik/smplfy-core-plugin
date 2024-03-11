@@ -1,6 +1,6 @@
 <?php
 
-function smpfly_logger_custom_error_handler( $err_no, $err_str, $err_file, $err_line ): bool {
+function smplfy_logger_custom_error_handler( $err_no, $err_str, $err_file, $err_line ): bool {
 
 	/**
 	 *  When calling SMPLFY_Log within this error handler we are passing the log_to_file parameter as false to avoid logging the same error twice.
@@ -55,12 +55,12 @@ function smpfly_logger_custom_error_handler( $err_no, $err_str, $err_file, $err_
 	return false;
 }
 
-function smpfly_logger_exception_handler( Throwable $exception ): void {
+function smplfy_logger_exception_handler( Throwable $exception ): void {
 	$message = "PHP Fatal error: Uncaught Exception: {$exception->getMessage()} in {$exception->getFile()}:{$exception->getLine()} \nPHP Stack Trace: \n{$exception->getTraceAsString()} \n  thrown in {$exception->getFile()} on line {$exception->getLine()}";
 	SMPLFY_Log::error( $message );
 }
 
-function smpfly_logger_get_stack_trace_as_string(): string {
+function smplfy_logger_get_stack_trace_as_string(): string {
 	ob_start();
 	debug_print_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
 
@@ -68,10 +68,10 @@ function smpfly_logger_get_stack_trace_as_string(): string {
 }
 
 function smplfy_logger_generate_message( string $message_start, $err_str, $err_file, $err_line ): string {
-	$stack_trace = smpfly_logger_get_stack_trace_as_string();
+	$stack_trace = smplfy_logger_get_stack_trace_as_string();
 
 	return "$message_start: $err_str in $err_file on line $err_line\nPHP Stack trace:\n$stack_trace";
 }
 
-set_error_handler( 'smpfly_logger_custom_error_handler' );
-set_exception_handler( 'smpfly_logger_exception_handler' );
+set_error_handler( 'smplfy_logger_custom_error_handler' );
+set_exception_handler( 'smplfy_logger_exception_handler' );

@@ -6,13 +6,13 @@ add_action( 'admin_init', 'smplfy_settings_init' );
  * custom option and settings
  */
 function smplfy_settings_init(): void {
-	register_setting( 'smplfy_core', 'smplfy_core_options' );
+	register_setting( 'smplfy', 'smplfy_options' );
 
 	add_settings_section(
 		'smplfy_section_developers',
 		'SMPLFY Core Settings',
 		'smplfy_section_developers_callback',
-		'smplfy_core'
+		'smplfy'
 	);
 
 	smplfy_add_settings_field( 'smplfy_field_send_logs_to_data_dog', 'Send Logs to DataDog:' );
@@ -25,7 +25,7 @@ function smplfy_add_settings_field( string $id, string $title ): void {
 		$id,
 		$title,
 		"{$id}_cb",
-		'smplfy_core',
+		'smplfy',
 		'smplfy_section_developers',
 		array( 'label_for' => $id, )
 	);
@@ -40,16 +40,16 @@ function smplfy_section_developers_callback( array $args ): void {
 	<?php
 }
 
-function smpfly_field_send_logs_to_data_dog_cb( $args ): void {
+function smplfy_field_send_logs_to_data_dog_cb( $args ): void {
 	smplfy_add_setting_field( $args, 'smplfy_field_send_logs_to_data_dog', 'checkbox' );
 }
 
 function smplfy_field_api_url_cb( $args ): void {
-	smplfy_add_setting_field( $args, 'smpfly_field_api_url', 'text' );
+	smplfy_add_setting_field( $args, 'smplfy_field_api_url', 'text' );
 }
 
 function smplfy_field_api_key_cb( $args ): void {
-	smplfy_add_setting_field( $args, 'smpfly_field_api_key', 'password' );
+	smplfy_add_setting_field( $args, 'smplfy_field_api_key', 'password' );
 }
 
 /**
@@ -85,7 +85,7 @@ function smplfy_checkbox_field( array $args, $value, $type ) {
 	?>
     <input type="<?php echo esc_attr( $type ) ?>"
            id="<?php echo esc_attr( $args['label_for'] ); ?>"
-           name="smpfly_core_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+           name="smplfy_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
 		<?php echo $value ?>
     >
 	<?php
@@ -95,23 +95,23 @@ function smplfy_field( $args, $value, $type ) {
 	?>
     <input type="<?php echo esc_attr( $type ) ?>"
            id="<?php echo esc_attr( $args['label_for'] ); ?>"
-           name="smpfly_core_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+           name="smplfy_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
            value="<?php echo $value ?>"
     >
 	<?php
 }
 
 function get_smplfy_setting_value( $setting_id ): ?string {
-	$options = get_option( 'smpfly_core_options' );
+	$options = get_option( 'smplfy_options' );
 
 	return esc_attr( $options[ $setting_id ] );
 }
 
 function get_smplfy_settings(): SMPLFY_SettingsModel {
-	$settings  = get_option( 'smpfly_core_options' );
-	$send_logs = esc_attr( $settings['smpfly_field_send_logs_to_data_dog'] );
-	$api_key   = esc_attr( $settings['smpfly_field_api_key'] );
-	$api_url   = esc_attr( $settings['smpfly_field_api_url'] );
+	$settings  = get_option( 'smplfy_options' );
+	$send_logs = esc_attr( $settings['smplfy_field_send_logs_to_data_dog'] );
+	$api_key   = esc_attr( $settings['smplfy_field_api_key'] );
+	$api_url   = esc_attr( $settings['smplfy_field_api_url'] );
 
 	return new SMPLFY_SettingsModel( $api_key, $api_url, $send_logs );
 }

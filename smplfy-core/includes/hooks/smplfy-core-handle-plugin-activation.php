@@ -14,7 +14,7 @@ function smp_core_handle_plugin_activation() {
 
 	/*
 	 * Check if the loader file already exists, if not, create it
-	 * The loader file is used to ensure that the SMPFLY Core plugin is loaded before all other plugins
+	 * The loader file is used to ensure that the SMPLFY Core plugin is loaded before all other plugins
 	 */
 	if ( ! file_exists( $loaderFile ) ) {
 		$fileContent = "<?php\n\n";
