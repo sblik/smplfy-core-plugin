@@ -17,6 +17,7 @@
 
 define( 'SMP_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
+require_once SMP_CORE_PLUGIN_DIR . 'includes/utilities/security.php';
 require_once SMP_CORE_PLUGIN_DIR . 'includes/utilities/SMP_Require.php';
 $require = new SMP_Require( SMP_CORE_PLUGIN_DIR );
 
