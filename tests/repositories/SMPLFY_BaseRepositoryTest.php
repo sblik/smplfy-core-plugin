@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../simplify-core/includes/gravity-forms/GravityFormsApiWrapper.php';
+require_once __DIR__ . '/../../smplfy-core/includes/gravity-forms/SMPLFY_GravityFormsApiWrapper.php';
 require_once __DIR__ . '/../entities/TestConcreteEntity.php';
 require_once __DIR__ . '/TestConcreteRepository.php';
 

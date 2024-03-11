@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../simplify-core/includes/utilities/SMPLFY_Require.php';
+require_once __DIR__ . '/../../smplfy-core/includes/utilities/SMPLFY_Require.php';
 
 use PHPUnit\Framework\TestCase;
 

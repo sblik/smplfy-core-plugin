@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../simplify-core/includes/entities/SMPLFY_BaseEntity.php';
+require_once __DIR__ . '/../../smplfy-core/includes/entities/SMPLFY_BaseEntity.php';
 require_once __DIR__ . '/TestConcreteEntityBuilder.php';
 
 class SMPLFY_BaseEntityTest extends TestCase {
