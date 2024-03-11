@@ -4,9 +4,10 @@ Core logic for a unified development approach across multiple plugins
 
 ## Features
 
-- Base Repository
-- Base Entity
-- Require Utilities
+- **Base Repository:** For gravity forms integration
+- **Base Entity:** For gravity forms integration
+- **Require Utilities:** Require directories and files
+- **Security:** Prevent outside script execution
 
 ## Prerequisites
 
