@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../gravity-forms/GravityFormsKeys.php';
+require_once __DIR__ . '/../gravity-forms/SMPLFY_GravityFormsKeys.php';
 
 /**
  * This generic entity class can be extended as a way to automatically map the properties of a class to the keys of a gravity forms entry
@@ -109,9 +109,9 @@ abstract class SMPLFY_BaseEntity {
 			'id'                 => 'id',
 			'formId'             => 'form_id',
 			'createdBy'          => 'created_by',
-			'parentKey'          => GravityFormsKeys::ENTRY_PARENT_KEY,
-			'parentFormKey'      => GravityFormsKeys::ENTRY_PARENT_FORM_KEY,
-			'nestedFormFieldKey' => GravityFormsKeys::ENTRY_NESTED_FORM_FIELD_KEY,
+			'parentKey'          => SMPLFYGravityFormsKeys::ENTRY_PARENT_KEY,
+			'parentFormKey'      => SMPLFYGravityFormsKeys::ENTRY_PARENT_FORM_KEY,
+			'nestedFormFieldKey' => SMPLFYGravityFormsKeys::ENTRY_NESTED_FORM_FIELD_KEY,
 		);
 
 		return array_merge( $this->get_property_map(), $defaultProperties );

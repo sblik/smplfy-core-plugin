@@ -390,7 +390,7 @@ class SMPLFY_BaseRepositoryTest extends TestCase {
 	}
 
 	protected function setUp(): void {
-		$this->gravityFormsApiMock = $this->createMock( GravityFormsApiWrapper::class );
+		$this->gravityFormsApiMock = $this->createMock( SMPLFY_GravityFormsApiWrapper::class );
 		$this->repository          = new TestConcreteRepository( $this->gravityFormsApiMock );
 		$this->entity              = new TestConcreteEntity();
 		$this->entity->formEntry   = [];

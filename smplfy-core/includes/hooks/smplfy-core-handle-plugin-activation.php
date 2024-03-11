@@ -14,7 +14,7 @@ function smp_core_handle_plugin_activation() {
 
 	/*
 	 * Check if the loader file already exists, if not, create it
-	 * The loader file is used to ensure that the SMP Core plugin is loaded before all other plugins
+	 * The loader file is used to ensure that the SMPFLY Core plugin is loaded before all other plugins
 	 */
 	if ( ! file_exists( $loaderFile ) ) {
 		$fileContent = "<?php\n\n";
@@ -22,7 +22,7 @@ function smp_core_handle_plugin_activation() {
 		$fileContent .= " * Plugin Name: Smplfy Core Loader\n";
 		$fileContent .= " * Description: Ensures that the Smplfy Core plugin is loaded before all other plugins\n";
 		$fileContent .= " */\n";
-		$fileContent .= "require_once WP_PLUGIN_DIR  . '/simplify-core/smplfy-core.php';\n";
+		$fileContent .= "require_once WP_PLUGIN_DIR  . '/smplfy-core/smplfy-core.php';\n";
 
 		file_put_contents( $loaderFile, $fileContent );
 	}

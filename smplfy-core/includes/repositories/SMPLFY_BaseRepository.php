@@ -20,9 +20,9 @@ abstract class SMPLFY_BaseRepository {
 	/**
 	 * Holds wrapper to gravity forms api
 	 */
-	protected GravityFormsApiWrapper $gravityFormsApi;
+	protected SMPLFY_GravityFormsApiWrapper $gravityFormsApi;
 
-	public function __construct( GravityFormsApiWrapper $gravityFormsApi ) {
+	public function __construct( SMPLFY_GravityFormsApiWrapper $gravityFormsApi ) {
 		$this->gravityFormsApi = $gravityFormsApi;
 	}
 

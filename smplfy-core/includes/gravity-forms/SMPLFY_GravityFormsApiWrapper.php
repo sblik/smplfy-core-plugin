@@ -1,6 +1,6 @@
 <?php
 
-class GravityFormsApiWrapper {
+class SMPLFY_GravityFormsApiWrapper {
 	/**
 	 * @param $entryId
 	 *
@@ -31,10 +31,10 @@ class GravityFormsApiWrapper {
 
 	/**
 	 * @param          $form_ids
-	 * @param   array  $search_criteria
-	 * @param   null   $sorting
-	 * @param   null   $paging
-	 * @param   null   $total_count
+	 * @param  array  $search_criteria
+	 * @param  null  $sorting
+	 * @param  null  $paging
+	 * @param  null  $total_count
 	 *
 	 * @return array|WP_Error
 	 */
