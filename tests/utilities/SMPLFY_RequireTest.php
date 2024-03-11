@@ -1,12 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../../simplify-core/includes/utilities/SMP_Require.php';
+require_once __DIR__ . '/../../simplify-core/includes/utilities/SMPLFY_Require.php';
 
 use PHPUnit\Framework\TestCase;
 
-class SMP_RequireTest extends TestCase {
+class SMPLFY_RequireTest extends TestCase {
 
-	private SMP_Require $require;
+	private SMPLFY_Require $require;
 
 	/**
 	 * @group directory
@@ -56,6 +56,6 @@ class SMP_RequireTest extends TestCase {
 
 	protected function setUp(): void {
 		$pluginDirectory = __DIR__;
-		$this->require   = new SMP_Require( $pluginDirectory );
+		$this->require   = new SMPLFY_Require( $pluginDirectory );
 	}
 }

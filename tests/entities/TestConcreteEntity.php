@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../../simplify-core/includes/entities/SMP_BaseEntity.php';
+require_once __DIR__ . '/../../simplify-core/includes/entities/SMPLFY_BaseEntity.php';
 
-class TestConcreteEntity extends SMP_BaseEntity {
+class TestConcreteEntity extends SMPLFY_BaseEntity {
 	public string $definedProperty;
 	private array $propertyMap;
 
@@ -16,7 +16,7 @@ class TestConcreteEntity extends SMP_BaseEntity {
 	}
 }
 
-class TestDefaultConcreteEntity extends SMP_BaseEntity {
+class TestDefaultConcreteEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {
 		parent::__construct( $formEntry );
 	}

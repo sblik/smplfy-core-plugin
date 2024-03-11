@@ -2,10 +2,10 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../simplify-core/includes/entities/SMP_BaseEntity.php';
+require_once __DIR__ . '/../../simplify-core/includes/entities/SMPLFY_BaseEntity.php';
 require_once __DIR__ . '/TestConcreteEntityBuilder.php';
 
-class SMP_BaseEntityTest extends TestCase {
+class SMPLFY_BaseEntityTest extends TestCase {
 	/**
 	 * @group get_field_id
 	 */

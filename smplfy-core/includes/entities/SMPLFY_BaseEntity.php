@@ -22,7 +22,7 @@ require_once __DIR__ . '/../gravity-forms/GravityFormsKeys.php';
  * @property $nestedFormFieldKey
  *
  */
-abstract class SMP_BaseEntity {
+abstract class SMPLFY_BaseEntity {
 	/**
 	 * Represents the gravity forms entry
 	 * @var  $formEntry
@@ -62,7 +62,7 @@ abstract class SMP_BaseEntity {
 
 	/**
 	 * The __get method in PHP is a magic method that is automatically called when you try to access a property that is not accessible or does not exist in a class.
-	 * In the context of the SMP_BaseEntity class, the __get method is used to retrieve the value of a property from the formEntry array.
+	 * In the context of the SMPLFY_BaseEntity class, the __get method is used to retrieve the value of a property from the formEntry array.
 	 *
 	 * @param $property
 	 *
@@ -81,7 +81,7 @@ abstract class SMP_BaseEntity {
 	/**
 	 *
 	 * The __set method in PHP is a magic method that is automatically called when you try to set a value to a property that is not accessible or does not exist in a class.
-	 * In the context of the SMP_BaseEntity class, the __set method is used to set the value of a property in the formEntry array.
+	 * In the context of the SMPLFY_BaseEntity class, the __set method is used to set the value of a property in the formEntry array.
 	 *
 	 * @param $property
 	 * @param $value

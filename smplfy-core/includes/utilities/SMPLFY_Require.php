@@ -1,6 +1,6 @@
 <?php
 
-class SMP_Require {
+class SMPLFY_Require {
 
 	private string $pluginDirectory;
 
@@ -53,7 +53,7 @@ class SMP_Require {
 		if ( ! file_exists( $file ) ) {
 			throw new Exception( "File not found: $file" );
 		}
-		
+
 		require_once $file;
 	}
 }

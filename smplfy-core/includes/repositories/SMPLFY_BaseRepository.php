@@ -2,10 +2,10 @@
 
 /**
  * This base repository serves as mechanism to perform CRUD operations on Gravity Forms entries
- * The SMP_BaseRepository class has default methods for all repositories that extend it
+ * The SMPLFY_BaseRepository class has default methods for all repositories that extend it
  * @template T
  */
-abstract class SMP_BaseRepository {
+abstract class SMPLFY_BaseRepository {
 	/**
 	 * Override $entityType in repositories that extend this base repository
 	 * @var class-string<T>

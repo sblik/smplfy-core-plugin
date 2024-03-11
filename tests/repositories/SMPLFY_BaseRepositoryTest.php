@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../simplify-core/includes/gravity-forms/GravityForms
 require_once __DIR__ . '/../entities/TestConcreteEntity.php';
 require_once __DIR__ . '/TestConcreteRepository.php';
 
-class SMP_BaseRepositoryTest extends TestCase {
+class SMPLFY_BaseRepositoryTest extends TestCase {
 	private $gravityFormsApiMock;
 	private TestConcreteRepository $repository;
 	private TestConcreteEntity $entity;
