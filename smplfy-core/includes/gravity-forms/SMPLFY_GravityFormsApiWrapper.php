@@ -30,7 +30,7 @@ class SMPLFY_GravityFormsApiWrapper {
 	}
 
 	/**
-	 * @param          $form_ids
+	 * @param  $form_ids
 	 * @param  array  $search_criteria
 	 * @param  null  $sorting
 	 * @param  null  $paging

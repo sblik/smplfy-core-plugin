@@ -1,9 +1,9 @@
 <?php
 
 class SMPLFY_SettingsModel {
-	private $apiUrl;
-	private $apiKey;
-	private $sendToDataDog;
+	private string $apiUrl;
+	private string $apiKey;
+	private bool $sendToDataDog;
 
 	function __construct( string $apiKey, string $apiUrl, bool $sendToDataDog ) {
 		$this->sendToDataDog = $sendToDataDog;
