@@ -101,7 +101,7 @@ abstract class SMPLFY_BaseEntity {
 
 	/**
 	 * returns the default property mappings combined with the properties defined in the child class
-	 *
+	 * ref: https://docs.gravityforms.com/entry-object/
 	 * @return string[]
 	 */
 	private function get_all_property_map(): array {
@@ -109,6 +109,10 @@ abstract class SMPLFY_BaseEntity {
 			'id'                 => 'id',
 			'formId'             => 'form_id',
 			'createdBy'          => 'created_by',
+			'dateCreated'        => 'date_created',
+			'dateUpdated'        => 'date_updated',
+			'sourceUrl'          => 'source_url',
+			'userAgent'          => 'user_agent',
 			'parentKey'          => SMPLFYGravityFormsKeys::ENTRY_PARENT_KEY,
 			'parentFormKey'      => SMPLFYGravityFormsKeys::ENTRY_PARENT_FORM_KEY,
 			'nestedFormFieldKey' => SMPLFYGravityFormsKeys::ENTRY_NESTED_FORM_FIELD_KEY,
