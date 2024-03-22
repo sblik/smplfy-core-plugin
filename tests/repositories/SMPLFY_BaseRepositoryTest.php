@@ -239,6 +239,30 @@ class SMPLFY_BaseRepositoryTest extends TestCase {
 		$this->assertEquals( $entity2, $result[1] );
 	}
 
+	public function test_get_all_with_start_and_end_date_queries_gravity_forms_correctly(): void {
+		// Arrange
+		$startDate = new DateTime( '2024-03-01' );
+		$endDate   = new DateTime( '2024-03-22' );
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( [
+				                          'status'     => 'active',
+				                          'start_date' => $startDate,
+				                          'end_date'   => $endDate,
+			                          ] ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [] );
+		// Act
+		$result = $this->repository->get_all( [ 'start_date' => $startDate, 'end_date' => $endDate ] );
+		// Assert
+		$this->assertIsArray( $result );
+		$this->assertCount( 0, $result );
+	}
+
 	public function test_get_all_returns_empty_array_when_no_entries_match_filters(): void {
 		// Arrange
 		$this->gravityFormsApiMock->expects( $this->once() )
@@ -264,6 +288,33 @@ class SMPLFY_BaseRepositoryTest extends TestCase {
 		                          ->willReturn( new WP_Error( 'error', 'error message' ) );
 		// Act
 		$result = $this->repository->get_all( [] );
+		// Assert
+		$this->assertIsArray( $result );
+		$this->assertCount( 0, $result );
+	}
+
+	/**
+	 * @group get_all_between
+	 */
+	public function test_get_all_between_queries_gravity_forms_correctly(): void {
+		// Arrange
+		$startDate = new DateTime( '2024-03-05' );
+		$endDate   = new DateTime( '2024-03-22' );
+		$this->gravityFormsApiMock->expects( $this->once() )
+		                          ->method( 'get_entries' )
+		                          ->with(
+			                          $this->equalTo( $this->formId ),
+			                          $this->equalTo( [
+				                          'status'     => 'active',
+				                          'start_date' => $startDate,
+				                          'end_date'   => $endDate,
+			                          ] ),
+			                          $this->anything(),
+			                          $this->anything()
+		                          )
+		                          ->willReturn( [] );
+		// Act
+		$result = $this->repository->get_all_between( $startDate, $endDate );
 		// Assert
 		$this->assertIsArray( $result );
 		$this->assertCount( 0, $result );

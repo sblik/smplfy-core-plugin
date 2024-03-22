@@ -113,6 +113,16 @@ abstract class SMPLFY_BaseRepository {
 
 		if ( $filters != null ) {
 			foreach ( $filters as $key => $value ) {
+
+				if ( $key == 'start_date' ) {
+					$searchCriteria['start_date'] = $value;
+					continue;
+				}
+				if ( $key == 'end_date' ) {
+					$searchCriteria['end_date'] = $value;
+					continue;
+				}
+
 				$searchCriteria['field_filters'][] = array(
 					'key'   => $key,
 					'value' => $value,
@@ -174,6 +184,25 @@ abstract class SMPLFY_BaseRepository {
 	 */
 	public function get_all( array $filters = null, string $direction = 'ASC' ): array {
 		$paging = array( 'offset' => 0, 'page_size' => 999999999999 );
+
+		return $this->get( $filters, $direction, $paging );
+	}
+
+	/**
+	 * Get all entries between start and end date
+	 *
+	 * @param  DateTime  $startDate
+	 * @param  DateTime  $endDate
+	 * @param  array|null  $filters  an array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
+	 * @param  string  $direction
+	 *
+	 * @return T[]
+	 */
+	public function get_all_between( DateTime $startDate, DateTime $endDate, array $filters = null, string $direction = 'ASC' ): array {
+		$paging = array( 'offset' => 0, 'page_size' => 999999999999 );
+		
+		$filters['start_date'] = $startDate;
+		$filters['end_date']   = $endDate;
 
 		return $this->get( $filters, $direction, $paging );
 	}
