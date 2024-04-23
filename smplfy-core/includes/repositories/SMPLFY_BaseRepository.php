@@ -206,26 +206,4 @@ abstract class SMPLFY_BaseRepository {
 
 		return $this->get( $filters, $direction, $paging );
 	}
-
-	/**
-	 * Get total number of entries matching the filters
-	 * @param  array[]  $filters
-	 *
-	 * @return int
-	 */
-	public function count_entries( array $filters = null ): int {
-		$searchCriteria = array();
-
-		if ( $filters != null ) {
-			foreach ( $filters as $key => $value ) {
-
-				$searchCriteria[] = array(
-					'key'   => $key,
-					'value' => $value,
-				);
-			}
-		}
-
-		return $this->gravityFormsApi->count_entries( $this->formId, $searchCriteria );
-	}
 }
