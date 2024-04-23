@@ -241,8 +241,8 @@ class SMPLFY_BaseRepositoryTest extends TestCase {
 
 	public function test_get_all_with_start_and_end_date_queries_gravity_forms_correctly(): void {
 		// Arrange
-		$startDate = '2024-03-01';
-		$endDate   = '2024-03-22';
+		$startDate = new DateTime( '2024-03-01' );
+		$endDate   = new DateTime( '2024-03-22' );
 		$this->gravityFormsApiMock->expects( $this->once() )
 		                          ->method( 'get_entries' )
 		                          ->with(
@@ -298,8 +298,8 @@ class SMPLFY_BaseRepositoryTest extends TestCase {
 	 */
 	public function test_get_all_between_queries_gravity_forms_correctly(): void {
 		// Arrange
-		$startDate = '2024-03-05';
-		$endDate   = '2024-03-22';
+		$startDate = new DateTime( '2024-03-05' );
+		$endDate   = new DateTime( '2024-03-22' );
 		$this->gravityFormsApiMock->expects( $this->once() )
 		                          ->method( 'get_entries' )
 		                          ->with(
