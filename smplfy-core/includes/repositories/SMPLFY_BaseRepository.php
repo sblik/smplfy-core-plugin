@@ -109,28 +109,6 @@ abstract class SMPLFY_BaseRepository {
 	 * @return T[]
 	 */
 	private function get( array $filters = null, string $direction = 'ASC', $paging = null ): array {
-		$searchCriteria = array();
-
-		if ( $filters != null ) {
-			foreach ( $filters as $key => $value ) {
-
-				if ( $key == 'start_date' ) {
-					$searchCriteria['start_date'] = $value;
-					continue;
-				}
-				if ( $key == 'end_date' ) {
-					$searchCriteria['end_date'] = $value;
-					continue;
-				}
-
-				$searchCriteria['field_filters'][] = array(
-					'key'   => $key,
-					'value' => $value,
-				);
-			}
-		}
-
-		$searchCriteria['status'] = 'active';
 
 		$sorting = array(
 			'key'        => 'id',
@@ -138,7 +116,7 @@ abstract class SMPLFY_BaseRepository {
 			'is_numeric' => true,
 		);
 
-		$retrieved_entries = $this->gravityFormsApi->get_entries( $this->formId, $searchCriteria, $sorting, $paging );
+		$retrieved_entries = $this->gravityFormsApi->get_entries( $this->formId, $this->get_search_Criteria($filters), $sorting, $paging );
 
 		if ( is_wp_error( $retrieved_entries ) ) {
 			return array();
@@ -206,4 +184,51 @@ abstract class SMPLFY_BaseRepository {
 
 		return $this->get( $filters, $direction, $paging );
 	}
+
+	/**
+	 * Get total number of entries matching the filters
+	 * @param  array[]  $filters
+	 *
+	 * @return int
+	 */
+	public function count_entries( array $filters = null ): int {
+
+		return $this->gravityFormsApi->count_entries( $this->formId, $this->get_search_Criteria( $filters ));
+	}
+
+	/**
+	 * Generic get method used by both get and count_entries to return search criteria
+	 *
+	 * @param array|null $filters  an array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
+	 *
+	 * @return array
+	 */
+	private function get_search_Criteria( array $filters = null): array{
+
+		$searchCriteria = array();
+
+		if ( $filters != null ) {
+			foreach ( $filters as $key => $value ) {
+
+				if ( $key == 'start_date' ) {
+					$searchCriteria['start_date'] = $value;
+					continue;
+				}
+				if ( $key == 'end_date' ) {
+					$searchCriteria['end_date'] = $value;
+					continue;
+				}
+
+				$searchCriteria['field_filters'][] = array(
+					'key'   => $key,
+					'value' => $value,
+				);
+			}
+		}
+
+		$searchCriteria['status'] = 'active';
+
+		return $searchCriteria;
+	}
 }
+
