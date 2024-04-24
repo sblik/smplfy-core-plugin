@@ -48,8 +48,7 @@ class SMPLFY_GravityFormsApiWrapper {
 	 *
 	 * @return int
 	 */
-	public function count_entries( $form_ids, array $search_criteria = array() ) {
+	public function count_entries( $form_ids, array $search_criteria = array() ) : int {
 		return GFAPI::count_entries( $form_ids, $search_criteria );
 	}
-
 }
