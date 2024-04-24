@@ -197,7 +197,7 @@ abstract class SMPLFY_BaseRepository {
 	}
 
 	/**
-	 * Generic get method used by both get_one and get_all
+	 * Generic get method used by both get and count_entries to return search criteria
 	 *
 	 * @param array|null $filters  an array of key value pairs e.g. ['id' => $value, 'created_by' => $userId]
 	 *
