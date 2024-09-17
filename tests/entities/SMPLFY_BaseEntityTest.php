@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-
+use SmplfyCore\SMPLFY_BaseEntity;
 require_once __DIR__ . '/../../smplfy-core/includes/entities/SMPLFY_BaseEntity.php';
 require_once __DIR__ . '/TestConcreteEntityBuilder.php';
 

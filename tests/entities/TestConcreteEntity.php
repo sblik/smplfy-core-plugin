@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../smplfy-core/includes/entities/SMPLFY_BaseEntity.php';
-
+use SmplfyCore\SMPLFY_BaseEntity;
 class TestConcreteEntity extends SMPLFY_BaseEntity {
 	public string $definedProperty;
 	private array $propertyMap;
