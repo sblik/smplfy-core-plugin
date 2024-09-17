@@ -1,6 +1,6 @@
 <?php
 namespace SmplfyCore;
-add_action( 'admin_init', 'smplfy_settings_init' );
+add_action( 'admin_init', 'SmplfyCore\smplfy_settings_init' );
 
 /**
  * custom option and settings

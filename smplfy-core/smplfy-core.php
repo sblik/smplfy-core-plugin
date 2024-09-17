@@ -36,5 +36,5 @@ try {
 }
 
 
-register_activation_hook( __FILE__, 'smp_core_handle_plugin_activation' );
+register_activation_hook( __FILE__, 'SmplfyCore\smp_core_handle_plugin_activation' );
 
