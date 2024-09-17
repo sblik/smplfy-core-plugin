@@ -73,5 +73,5 @@ function smplfy_logger_generate_message( string $message_start, $err_str, $err_f
 	return "$message_start: $err_str in $err_file on line $err_line\nPHP Stack trace:\n$stack_trace";
 }
 
-set_error_handler( 'smplfy_logger_custom_error_handler' );
-set_exception_handler( 'smplfy_logger_exception_handler' );
+set_error_handler( 'SmplfyCore\smplfy_logger_custom_error_handler' );
+set_exception_handler( 'SmplfyCore\smplfy_logger_exception_handler' );
