@@ -15,6 +15,8 @@
  * Requires PHP: 7.4
  */
 
+namespace SmplfyCore;
+
 define( 'SMP_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 require_once SMP_CORE_PLUGIN_DIR . 'includes/utilities/smplfy-security.php';

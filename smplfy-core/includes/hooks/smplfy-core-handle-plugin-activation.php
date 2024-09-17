@@ -1,5 +1,5 @@
 <?php
-
+namespace SmplfyCore;
 function smp_core_handle_plugin_activation() {
 	$muPluginsDir = WP_CONTENT_DIR . '/mu-plugins';
 	$loaderFile   = $muPluginsDir . '/smplfy-core-loader.php';

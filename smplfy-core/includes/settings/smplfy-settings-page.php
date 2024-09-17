@@ -1,5 +1,5 @@
 <?php
-
+namespace SmplfyCore;
 add_action( 'admin_menu', 'smplfy_settings_page' );
 
 /**

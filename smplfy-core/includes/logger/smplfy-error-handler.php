@@ -1,5 +1,5 @@
 <?php
-
+namespace SmplfyCore;
 function smplfy_logger_custom_error_handler( $err_no, $err_str, $err_file, $err_line ): bool {
 
 	/**

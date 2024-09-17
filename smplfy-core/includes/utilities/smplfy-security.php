@@ -1,5 +1,5 @@
 <?php
-
+namespace SmplfyCore;
 // Prevent script execution from outside WordPress
 if (
 	! function_exists( 'get_option' ) ||
