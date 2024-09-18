@@ -1,5 +1,5 @@
 <?php
-
+namespace SmplfyCore;
 require_once __DIR__ . '/../gravity-forms/SMPLFY_GravityFormsKeys.php';
 
 /**

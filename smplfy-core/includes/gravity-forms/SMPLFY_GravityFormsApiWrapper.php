@@ -1,4 +1,7 @@
 <?php
+namespace SmplfyCore;
+use GFAPI;
+use WP_Error;
 
 class SMPLFY_GravityFormsApiWrapper {
 	/**

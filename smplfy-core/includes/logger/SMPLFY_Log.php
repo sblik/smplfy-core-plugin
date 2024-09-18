@@ -1,5 +1,5 @@
 <?php
-
+namespace SmplfyCore;
 class SMPLFY_Log {
 	/**
 	 * @param  $message

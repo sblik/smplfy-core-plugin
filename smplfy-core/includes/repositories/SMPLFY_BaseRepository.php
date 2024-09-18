@@ -5,6 +5,7 @@
  * The SMPLFY_BaseRepository class has default methods for all repositories that extend it
  * @template T
  */
+namespace SmplfyCore;
 abstract class SMPLFY_BaseRepository {
 	/**
 	 * Override $entityType in repositories that extend this base repository

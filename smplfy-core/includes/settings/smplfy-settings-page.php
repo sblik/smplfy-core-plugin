@@ -1,6 +1,6 @@
 <?php
-
-add_action( 'admin_menu', 'smplfy_settings_page' );
+namespace SmplfyCore;
+add_action( 'admin_menu', 'SmplfyCore\smplfy_settings_page' );
 
 /**
  * Add the top level menu page.

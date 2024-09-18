@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-
+use SmplfyCore\SMPLFY_GravityFormsApiWrapper;
 require_once __DIR__ . '/../../smplfy-core/includes/gravity-forms/SMPLFY_GravityFormsApiWrapper.php';
 require_once __DIR__ . '/../entities/TestConcreteEntity.php';
 require_once __DIR__ . '/TestConcreteRepository.php';

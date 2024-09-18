@@ -1,5 +1,5 @@
 <?php
-
+namespace SmplfyCore;
 class SMPLFY_SettingsModel {
 	private string $apiUrl;
 	private string $apiKey;
