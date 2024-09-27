@@ -11,7 +11,7 @@ function smplfy_settings_init(): void {
 	add_settings_section(
 		'smplfy_section_developers',
 		'SMPLFY Core Settings',
-		'smplfy_section_developers_callback',
+		'SmplfyCore\smplfy_section_developers_callback',
 		'smplfy'
 	);
 
@@ -21,10 +21,11 @@ function smplfy_settings_init(): void {
 }
 
 function smplfy_add_settings_field( string $id, string $title ): void {
+    $callback = "SmplfyCore\\{$id}_cb";
 	add_settings_field(
 		$id,
 		$title,
-		"{$id}_cb",
+		$callback,
 		'smplfy',
 		'smplfy_section_developers',
 		array( 'label_for' => $id, )

@@ -11,7 +11,7 @@ function smplfy_settings_page() {
 		'SMPLFY Core',
 		'manage_options',
 		'SMPLFY Core',
-		'smplfy_settings_page_html'
+		'SmplfyCore\smplfy_settings_page_html'
 	);
 }
 
