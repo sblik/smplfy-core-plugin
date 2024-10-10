@@ -31,6 +31,8 @@ try {
 	$require->directory( 'includes/utilities' );
 	$require->directory( 'includes/settings' );
 	$require->directory( 'includes/logger' );
+	$require->directory( 'includes/wp-api' );
+	$require->directory( 'includes/gravity-flow' );
 } catch ( Exception $e ) {
 	error_log( $e->getMessage() );
 }
