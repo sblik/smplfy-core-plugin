@@ -37,6 +37,5 @@ try {
 	error_log( $e->getMessage() );
 }
 
-
 register_activation_hook( __FILE__, 'SmplfyCore\smp_core_handle_plugin_activation' );
 

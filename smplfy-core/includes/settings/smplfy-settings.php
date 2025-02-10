@@ -7,31 +7,69 @@ add_action( 'admin_init', 'SmplfyCore\smplfy_settings_init' );
  */
 function smplfy_settings_init(): void {
 	register_setting( 'smplfy', 'smplfy_options' );
-
+    //SMPLFY Core Settings
 	add_settings_section(
-		'smplfy_section_developers',
+		'smplfy_section_developers_main',
 		'SMPLFY Core Settings',
 		'SmplfyCore\smplfy_section_developers_callback',
 		'smplfy'
 	);
+	smplfy_add_main_settings_field( 'smplfy_field_send_logs_to_data_dog', 'Send Logs to DataDog:' );
 
-	smplfy_add_settings_field( 'smplfy_field_send_logs_to_data_dog', 'Send Logs to DataDog:' );
-	smplfy_add_settings_field( 'smplfy_field_api_url', 'DataDog API Url:' );
-	smplfy_add_settings_field( 'smplfy_field_api_key', 'DataDog API Key:' );
+    //Credentials
+    add_settings_section(
+		'smplfy_section_developers_credentials',
+		'Credentials: ',
+		'SmplfyCore\smplfy_section_developers_callback',
+		'smplfy'
+	);
+	smplfy_add_credentials_settings_field( 'smplfy_field_api_url', 'DataDog API Url:' );
+	smplfy_add_credentials_settings_field( 'smplfy_field_api_key', 'DataDog API Key:' );
+
+    //Type of Logs to Send:
+	add_settings_section(
+		'smplfy_section_developers_types',
+		'Type of Logs to Send to Data Dog:',
+		'SmplfyCore\smplfy_section_developers_callback',
+		'smplfy'
+	);
+	smplfy_add_type_settings_field( 'smplfy_field_send_notice_logs_to_data_dog', 'Log PHP Notices: ' );
+	smplfy_add_type_settings_field( 'smplfy_field_send_deprecated_logs_to_data_dog', 'Log PHP Deprecated: ' );
 }
 
-function smplfy_add_settings_field( string $id, string $title ): void {
+function smplfy_add_main_settings_field( string $id, string $title ): void {
+	$callback = "SmplfyCore\\{$id}_cb";
+	add_settings_field(
+		$id,
+		$title,
+		$callback,
+		'smplfy',
+		'smplfy_section_developers_main',
+		array( 'label_for' => $id, )
+	);
+}
+function smplfy_add_credentials_settings_field( string $id, string $title ): void {
     $callback = "SmplfyCore\\{$id}_cb";
 	add_settings_field(
 		$id,
 		$title,
 		$callback,
 		'smplfy',
-		'smplfy_section_developers',
+		'smplfy_section_developers_credentials',
 		array( 'label_for' => $id, )
 	);
 }
-
+function smplfy_add_type_settings_field( string $id, string $title ): void {
+	$callback = "SmplfyCore\\{$id}_cb";
+	add_settings_field(
+		$id,
+		$title,
+		$callback,
+		'smplfy',
+		'smplfy_section_developers_types',
+		array( 'label_for' => $id, )
+	);
+}
 /**
  * @param  array  $args  The settings array, defining title, id, callback.
  */
@@ -44,7 +82,12 @@ function smplfy_section_developers_callback( array $args ): void {
 function smplfy_field_send_logs_to_data_dog_cb( $args ): void {
 	smplfy_add_setting_field( $args, 'smplfy_field_send_logs_to_data_dog', 'checkbox' );
 }
-
+function smplfy_field_send_notice_logs_to_data_dog_cb( $args ): void {
+	smplfy_add_setting_field( $args, 'smplfy_field_send_notice_logs_to_data_dog', 'checkbox' );
+}
+function smplfy_field_send_deprecated_logs_to_data_dog_cb( $args ): void {
+	smplfy_add_setting_field( $args, 'smplfy_field_send_deprecated_logs_to_data_dog', 'checkbox' );
+}
 function smplfy_field_api_url_cb( $args ): void {
 	smplfy_add_setting_field( $args, 'smplfy_field_api_url', 'text' );
 }
@@ -58,7 +101,7 @@ function smplfy_field_api_key_cb( $args ): void {
  * @param  string  $setting_id
  * @param  string  $type
  */
-function smplfy_add_setting_field( array $args, string $setting_id, string $type ): void {
+function    smplfy_add_setting_field( array $args, string $setting_id, string $type ): void {
 	$value = get_smplfy_setting_value( $setting_id );
 
 	if ( $type == 'checkbox' ) {
@@ -111,8 +154,10 @@ function get_smplfy_setting_value( $setting_id ): ?string {
 function get_smplfy_settings(): SMPLFY_SettingsModel {
 	$settings  = get_option( 'smplfy_options' );
 	$send_logs = esc_attr( $settings['smplfy_field_send_logs_to_data_dog'] );
+	$send_notice_logs = esc_attr( $settings['smplfy_field_send_notice_logs_to_data_dog'] );
+	$send_deprecated_logs = esc_attr( $settings['smplfy_field_send_deprecated_logs_to_data_dog'] );
 	$api_key   = esc_attr( $settings['smplfy_field_api_key'] );
 	$api_url   = esc_attr( $settings['smplfy_field_api_url'] );
 
-	return new SMPLFY_SettingsModel( $api_key, $api_url, $send_logs );
+	return new SMPLFY_SettingsModel( $api_key, $api_url, $send_logs, $send_notice_logs, $send_deprecated_logs );
 }

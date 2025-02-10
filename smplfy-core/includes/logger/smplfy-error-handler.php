@@ -8,6 +8,7 @@ function smplfy_logger_custom_error_handler( $err_no, $err_str, $err_file, $err_
 	 *  We are returning false at the end of this function to allow the default PHP error handler to be called
 	 *  which will already be logging the error to the error log file. The error will still be sent to DataDog.
 	 */
+	$logger_settings = get_smplfy_settings();
 	switch ( $err_no ) {
 		case E_ERROR:
 		case E_USER_ERROR:
@@ -34,7 +35,9 @@ function smplfy_logger_custom_error_handler( $err_no, $err_str, $err_file, $err_
 		case E_NOTICE:
 		case E_USER_NOTICE:
 			$message = smplfy_logger_generate_message( "PHP Notice", $err_str, $err_file, $err_line );
-			SMPLFY_Log::info( $message, null, false );
+			if ( $logger_settings->is_send_notices()) {
+				SMPLFY_Log::info( $message, null, false );
+			}
 			break;
 
 		case E_STRICT:
@@ -44,6 +47,10 @@ function smplfy_logger_custom_error_handler( $err_no, $err_str, $err_file, $err_
 
 		case E_DEPRECATED:
 		case E_USER_DEPRECATED:
+			$message = smplfy_logger_generate_message( "PHP Deprecated", $err_str, $err_file, $err_line );
+			if ( $logger_settings->is_send_deprecated()) {
+				SMPLFY_Log::info( $message, null, false );
+			}
 			break;
 
 		default:
