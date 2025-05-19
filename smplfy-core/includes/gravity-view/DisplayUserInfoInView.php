@@ -1,20 +1,17 @@
 <?php
+
 namespace SmplfyCore;
 class DisplayUserInfoInView {
 
-	public static function get_user_info_to_display($word, $type, $content, $toReturn = null) {
-
-
-		if($type == 1){
-			if ( preg_match( "/$word(.{1,4})/", $content, $matches ) ) {
-				$userID = $matches[1];
-			}
-		}elseif($type == 2){
-			if ( preg_match( "/$word(.{1,50})/", $content, $matches ) ) {
-				$userEmail = $matches[1];
-				$userID    = get_user_by_email( $userEmail )->ID;
-			}
+	public static function get_user_info_to_display( $wordToExtractLookupValue, $contentFromView, $contentToReturn ) {
+		if ( preg_match( "/$wordToExtractLookupValue(.{1,4})/", $contentFromView, $matches ) ) {
+			$userID = $matches[1];
+		} elseif ( preg_match( "/$wordToExtractLookupValue(.{1,50})/", $contentFromView, $matches ) ) {
+			$userEmail = $matches[1];
+			$userID    = get_user_by_email( $userEmail )->ID;
 		}
+
+		SMPLFY_Log::info( "CONTENT TO RETURN: ", $contentToReturn );
 
 
 		if ( ! empty( $userID ) ) {
@@ -23,21 +20,21 @@ class DisplayUserInfoInView {
 			$phone            = UserMeta::retrieve_user_meta( $user->ID, 'mepr_phone' );
 			$address          = UserMeta::retrieve_user_meta( $userID, 'mepr_street_1' ) . ', ' . UserMeta::retrieve_user_meta( $userID, 'mepr-address-city' ) . ', ' . UserMeta::retrieve_user_meta( $userID, 'mepr-address-state' ) . ', ' . UserMeta::retrieve_user_meta( $userID, 'mepr-address-country' );
 			$addressPopulated = preg_match( '/^[, ]+$/', $address ) === 1;
-			$break            = "<br>";
-
-			$contentToReturn = '';
 
 			if ( ! empty( $name ) ) {
-				$contentToReturn = $contentToReturn . "Name: $name $break";
+				$contentToReturn = str_replace( "*NAME*", $name, $contentToReturn );
 			}
-			$contentToReturn = $contentToReturn . "Email: $user->user_email $break";
+			$contentToReturn = str_replace( "*EMAIL*", $user->user_email, $contentToReturn );
 			if ( ! empty( $phone ) ) {
-				$contentToReturn = $contentToReturn . "Phone: $phone $break";
+				$contentToReturn = str_replace( "*PHONE*", $phone, $contentToReturn );
 			}
 			if ( ! $addressPopulated ) {
-				$contentToReturn = $contentToReturn . "Address: $address $break";
+				$contentToReturn = str_replace( "*ADDRESS*", $addressPopulated, $contentToReturn );
 			}
 		}
+		SMPLFY_Log::info( "CONTENT TO RETURN AT END: ", $contentToReturn );
+
+		return $contentToReturn;
 
 	}
 }
