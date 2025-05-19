@@ -14,12 +14,17 @@ class UserActions {
 	 */
 	public static function generate_password_link( $userID ) {
 		$resetToken = get_password_reset_key( new WP_User( $userID ) );
-		$userEmail  = get_userdata( $userID )->user_email;
+		if(is_multisite()){
+			$u  = get_userdata( $userID )->nickname;
+		}else{
+			$u  = get_userdata( $userID )->user_email;
+		}
+
 		if ( $resetToken instanceof WP_Error ) {
 			return null;
 		}
 
-		return SITE_URL . '/login/?action=reset_password&mkey=' . $resetToken . '&u=' . $userEmail;
+		return SITE_URL . '/login/?action=reset_password&mkey=' . $resetToken . '&u=' . $u;
 	}
 
 	public static function does_user_have_role( $user, $roleName ): bool {
