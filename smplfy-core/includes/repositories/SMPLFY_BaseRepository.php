@@ -85,9 +85,9 @@ abstract class SMPLFY_BaseRepository {
 	 *
 	 * @return T|null
 	 */
-	public function get_one( array $filters ) {
+	public function get_one( array $filters, $direction = 'ASC' ) {
 		try {
-			$retrieved_entries = $this->get( $filters );
+			$retrieved_entries = $this->get( $filters, $direction );
 
 			if ( ! empty( $retrieved_entries ) ) {
 				return $retrieved_entries[0];
