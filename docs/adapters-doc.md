@@ -37,6 +37,9 @@ class GravityFormsAdapter {
     ) {
         $this->contactSubmissionUsecase = $contactSubmissionUsecase;
         $this->applicationSubmissionUsecase = $applicationSubmissionUsecase;
+        
+        $this->register_hooks();
+        $this->register_filters();
     }
     
     public function register_hooks() {
@@ -55,12 +58,6 @@ class GravityFormsAdapter {
             2
         );
         
-        // Form validation
-        add_filter(
-            'gform_validation_' . FormIds::CONTACT_FORM_ID,
-            [$this, 'validate_contact_form']
-        );
-        
         // Entry update
         add_action(
             'gform_post_update_entry',
@@ -70,6 +67,16 @@ class GravityFormsAdapter {
         );
     }
     
+     public function register_filters() {
+     // Form validation
+        add_filter(
+            'gform_validation_' . FormIds::CONTACT_FORM_ID,
+            [$this, 'validate_contact_form']
+        );
+     
+     }
+    
+    //Usecase - In separate file. Here to demonstrate the flow
     public function validate_contact_form($validation_result) {
         $form = $validation_result['form'];
         
@@ -126,6 +133,9 @@ class GravityFlowAdapter {
     ) {
         $this->approvalUsecase = $approvalUsecase;
         $this->orderProcessingUsecase = $orderProcessingUsecase;
+        
+        $this->register_hooks();
+        $this->register_filters();
     }
     
     public function register_hooks() {
@@ -152,7 +162,7 @@ class GravityFlowAdapter {
             4
         );
     }
-    
+    //Usecase - In separate file. Here to demonstrate the flow
     public function handle_step_complete($entry_id, $step, $form_id, $status) {
         $entry = GFAPI::get_entry($entry_id);
         
@@ -192,6 +202,9 @@ class WordPressAdapter {
         $this->userRegistrationUsecase = $userRegistrationUsecase;
         $this->heartbeatHandler = $heartbeatHandler;
         $this->dailyReportUsecase = $dailyReportUsecase;
+        
+        $this->register_hooks();
+        $this->register_filters();
     }
     
     public function register_hooks() {
@@ -202,15 +215,7 @@ class WordPressAdapter {
             10,
             1
         );
-        
-        // Heartbeat API
-        add_filter(
-            'heartbeat_received',
-            [$this->heartbeatHandler, 'receive_heartbeat'],
-            10,
-            2
-        );
-        
+       
         // Scheduled tasks
         add_action(
             'client_name_daily_report',
@@ -221,6 +226,19 @@ class WordPressAdapter {
         add_action('rest_api_init', [$this, 'register_rest_routes']);
     }
     
+    public function register_filters(){
+     // Heartbeat API
+        add_filter(
+            'heartbeat_received',
+            [$this->heartbeatHandler, 'receive_heartbeat'],
+            10,
+            2
+        );
+        
+    }
+    
+    
+  //Usecase - In separate file. Here to demonstrate the flow
     public function register_rest_routes() {
         register_rest_route('client-name/v1', '/webhook', [
             'methods' => 'POST',
@@ -245,66 +263,63 @@ class WordPressAdapter {
 
 ## Registering Adapters
 
-In your main plugin file, instantiate adapters and register their hooks:
+In the Dependency Factory (see boilerplate plugin) register Repositories, Use cases and Adapters:
 
 ```php
 <?php
-// Main plugin file
+// Dependency Factory file
+namespace SMPLFY\ClientName;
 
-if (!defined('ABSPATH')) {
-    exit;
-}
+use SmplfyCore;
+use SmplfyCore\SMPLFY_GravityFormsApiWrapper;
 
-// Load classes
-require_utilities(__DIR__ . '/public/php');
-
-// Initialize on plugins_loaded
-add_action('plugins_loaded', function() {
-    
+class DependencyFactory
+{
+    /**
+     * Create and initialize all dependencies
+     *
+     * @return void
+     */
+    static function create_plugin_dependencies()
+    { 
     // Core dependencies
-    $gravityFormsApi = new SmplfyCore\SMPLFY_GravityFormsApiWrapper();
+    $gravityFormsApi = new SMPLFY_GravityFormsApiWrapper();
     
     // Repositories
-    $contactRepo = new SMPLFY\ClientName\ContactFormRepository($gravityFormsApi);
-    $applicationRepo = new SMPLFY\ClientName\ApplicationRepository($gravityFormsApi);
-    $customerRepo = new SMPLFY\ClientName\CustomerRepository($gravityFormsApi);
+    $contactRepo = new ContactFormRepository($gravityFormsApi);
+    $applicationRepo = new ApplicationRepository($gravityFormsApi);
+    $customerRepo = new CustomerRepository($gravityFormsApi);
     
     // Use cases
-    $contactSubmissionUsecase = new SMPLFY\ClientName\ContactFormSubmissionUsecase(
+    $contactSubmissionUsecase = new ContactFormSubmissionUsecase(
         $contactRepo,
         $customerRepo
     );
     
-    $applicationSubmissionUsecase = new SMPLFY\ClientName\ApplicationSubmissionUsecase(
+    $applicationSubmissionUsecase = new ApplicationSubmissionUsecase(
         $applicationRepo
     );
     
-    $approvalUsecase = new SMPLFY\ClientName\ApplicationApprovalUsecase(
+    $approvalUsecase = new ApplicationApprovalUsecase(
         $applicationRepo
     );
     
     // Adapters
-    $gfAdapter = new SMPLFY\ClientName\GravityFormsAdapter(
+    $gfAdapter = new GravityFormsAdapter(
         $contactSubmissionUsecase,
         $applicationSubmissionUsecase
     );
     
-    $gflowAdapter = new SMPLFY\ClientName\GravityFlowAdapter(
+    $gflowAdapter = new GravityFlowAdapter(
         $approvalUsecase
     );
     
-    $wpAdapter = new SMPLFY\ClientName\WordPressAdapter(
+    $wpAdapter = new WordPressAdapter(
         $userRegistrationUsecase,
         $heartbeatHandler,
         $dailyReportUsecase
     );
-    
-    // Register all hooks
-    $gfAdapter->register_hooks();
-    $gflowAdapter->register_hooks();
-    $wpAdapter->register_hooks();
-    
-}, 20); // Priority 20 ensures GF is loaded
+}
 ```
 
 ---
@@ -704,197 +719,54 @@ Here's a full adapter implementation:
 
 ```php
 <?php
+
 namespace SMPLFY\ClientName;
 
-use SmplfyCore\SMPLFY_Log;
-
 class GravityFormsAdapter {
-    
-    private ContactFormSubmissionUsecase $contactSubmissionUsecase;
-    private ApplicationSubmissionUsecase $applicationSubmissionUsecase;
-    private OrderSubmissionUsecase $orderSubmissionUsecase;
-    
-    public function __construct(
-        ContactFormSubmissionUsecase $contactSubmissionUsecase,
-        ApplicationSubmissionUsecase $applicationSubmissionUsecase,
-        OrderSubmissionUsecase $orderSubmissionUsecase
-    ) {
-        $this->contactSubmissionUsecase = $contactSubmissionUsecase;
-        $this->applicationSubmissionUsecase = $applicationSubmissionUsecase;
-        $this->orderSubmissionUsecase = $orderSubmissionUsecase;
-    }
-    
-    /**
-     * Register all Gravity Forms hooks
-     */
-    public function register_hooks() {
-        // Form submissions
-        $this->register_submission_hooks();
-        
-        // Form validation
-        $this->register_validation_hooks();
-        
-        // Entry management
-        $this->register_entry_hooks();
-        
-        // Confirmations
-        $this->register_confirmation_hooks();
-    }
-    
-    private function register_submission_hooks() {
-        add_action(
-            'gform_after_submission_' . FormIds::CONTACT_FORM_ID,
-            [$this->contactSubmissionUsecase, 'handle_submission'],
-            10,
-            2
-        );
-        
-        add_action(
-            'gform_after_submission_' . FormIds::APPLICATION_FORM_ID,
-            [$this->applicationSubmissionUsecase, 'handle_submission'],
-            10,
-            2
-        );
-        
-        add_action(
-            'gform_after_submission_' . FormIds::ORDER_FORM_ID,
-            [$this->orderSubmissionUsecase, 'handle_submission'],
-            10,
-            2
-        );
-    }
-    
-    private function register_validation_hooks() {
-        add_filter(
-            'gform_validation_' . FormIds::CONTACT_FORM_ID,
-            [$this, 'validate_contact_form']
-        );
-        
-        add_filter(
-            'gform_validation_' . FormIds::APPLICATION_FORM_ID,
-            [$this, 'validate_application_form']
-        );
-    }
-    
-    private function register_entry_hooks() {
-        add_action(
-            'gform_post_update_entry',
-            [$this, 'handle_entry_update'],
-            10,
-            2
-        );
-        
-        add_action(
-            'gform_delete_entry',
-            [$this, 'handle_entry_delete'],
-            10,
-            2
-        );
-    }
-    
-    private function register_confirmation_hooks() {
-        add_filter(
-            'gform_confirmation_' . FormIds::ORDER_FORM_ID,
-            [$this, 'customize_order_confirmation'],
-            10,
-            4
-        );
-    }
-    
-    public function validate_contact_form($validation_result) {
-        $form = $validation_result['form'];
-        
-        foreach ($form['fields'] as &$field) {
-            // Email field validation
-            if ($field->id == '2') {
-                $email = rgpost('input_2');
-                
-                if ($this->is_blacklisted_email($email)) {
-                    $validation_result['is_valid'] = false;
-                    $field->failed_validation = true;
-                    $field->validation_message = 'This email address is not allowed.';
-                    
-                    SMPLFY_Log::warning('Blacklisted email attempted', [
-                        'email' => $email
-                    ]);
-                }
-            }
-            
-            // Phone field validation
-            if ($field->id == '3') {
-                $phone = rgpost('input_3');
-                
-                if (!$this->is_valid_phone($phone)) {
-                    $validation_result['is_valid'] = false;
-                    $field->failed_validation = true;
-                    $field->validation_message = 'Please enter a valid phone number.';
-                }
-            }
-        }
-        
-        return $validation_result;
-    }
-    
-    public function validate_application_form($validation_result) {
-        // Application-specific validation
-        return $validation_result;
-    }
-    
-    public function handle_entry_update($entry, $original_entry) {
-        $form_id = $entry['form_id'];
-        
-        SMPLFY_Log::info('Entry updated', [
-            'entry_id' => $entry['id'],
-            'form_id' => $form_id
-        ]);
-        
-        // Route to appropriate handler
-        if ($form_id == FormIds::ORDER_FORM_ID) {
-            $this->orderSubmissionUsecase->handle_entry_update($entry, $original_entry);
-        }
-    }
-    
-    public function handle_entry_delete($entry_id, $entry) {
-        SMPLFY_Log::info('Entry deleted', [
-            'entry_id' => $entry_id,
-            'form_id' => $entry['form_id']
-        ]);
-    }
-    
-    public function customize_order_confirmation($confirmation, $form, $entry, $ajax) {
-        // Customize confirmation message
-        $order = new OrderEntity($entry);
-        
-        $confirmation = sprintf(
-            '<div class="gform_confirmation_message">
-                <h3>Thank you for your order!</h3>
-                <p>Order Number: <strong>%s</strong></p>
-                <p>Total: <strong>$%s</strong></p>
-                <p>A confirmation email has been sent to %s</p>
-            </div>',
-            $order->orderNumber,
-            number_format($order->total, 2),
-            $order->customerEmail
-        );
-        
-        return $confirmation;
-    }
-    
-    private function is_blacklisted_email($email) {
-        $blacklist = get_option('email_blacklist', []);
-        $domain = substr(strrchr($email, "@"), 1);
-        
-        return in_array($email, $blacklist) || 
-               in_array($domain, $blacklist);
-    }
-    
-    private function is_valid_phone($phone) {
-        // Remove non-numeric characters
-        $phone = preg_replace('/[^0-9]/', '', $phone);
-        
-        // Check if 10 or 11 digits (US/Canada)
-        return strlen($phone) >= 10 && strlen($phone) <= 11;
-    }
+
+	private ContactFormSubmissionUsecase $contactSubmissionUsecase;
+	private ApplicationSubmissionUsecase $applicationSubmissionUsecase;
+	private OrderSubmissionUsecase $orderSubmissionUsecase;
+
+	public function __construct(
+		ContactFormSubmissionUsecase $contactSubmissionUsecase,
+		ApplicationSubmissionUsecase $applicationSubmissionUsecase,
+		OrderSubmissionUsecase $orderSubmissionUsecase
+	) {
+		$this->contactSubmissionUsecase = $contactSubmissionUsecase;
+		$this->applicationSubmissionUsecase = $applicationSubmissionUsecase;
+		$this->orderSubmissionUsecase = $orderSubmissionUsecase;
+
+		$this->register_hooks();
+		$this->register_filters();
+	}
+
+	/**
+	 * Register all Gravity Forms hooks
+	 */
+	public function register_hooks() {
+		add_action( 'gform_post_update_entry', [ $this, 'handle_entry_update' ], 10, 2 );
+		
+		add_action( 'gform_delete_entry', [ $this, 'handle_entry_delete' ], 10, 2 );
+		
+		add_action( 'gform_after_submission_' . FormIds::CONTACT_FORM_ID, [ $this->contactSubmissionUsecase, 'handle_submission' ], 10, 2 );
+		add_action( 'gform_after_submission_' . FormIds::APPLICATION_FORM_ID, [ $this->applicationSubmissionUsecase, 'handle_submission' ], 10, 2 );
+		add_action( 'gform_after_submission_' . FormIds::ORDER_FORM_ID, [ $this->orderSubmissionUsecase, 'handle_submission' ], 10, 2 );
+		add_action( 'gform_after_submission_' . FormIds::CONTACT_FORM_ID, [ $this->contactSubmissionUsecase, 'handle_submission' ], 10, 2 );
+		add_action( 'gform_after_submission_' . FormIds::APPLICATION_FORM_ID, [ $this->applicationSubmissionUsecase, 'handle_submission' ], 10, 2 );
+		add_action( 'gform_after_submission_' . FormIds::ORDER_FORM_ID, [ $this->orderSubmissionUsecase, 'handle_submission' ], 10, 2 );
+		add_action( 'gform_after_submission_' . FormIds::CONTACT_FORM_ID, [ $this->contactSubmissionUsecase, 'handle_submission' ], 10, 2 );
+		add_action( 'gform_after_submission_' . FormIds::APPLICATION_FORM_ID, [ $this->applicationSubmissionUsecase, 'handle_submission' ], 10, 2 );
+		add_action( 'gform_after_submission_' . FormIds::ORDER_FORM_ID, [ $this->orderSubmissionUsecase, 'handle_submission' ], 10, 2 );
+	}
+
+	public function register_filters() {
+		add_filter( 'gform_validation_' . FormIds::CONTACT_FORM_ID, [ $this, 'validate_contact_form' ] );
+		add_filter( 'gform_validation_' . FormIds::APPLICATION_FORM_ID, [ $this, 'validate_application_form' ] );
+		
+		add_filter( 'gform_confirmation_' . FormIds::ORDER_FORM_ID, [ $this, 'customize_order_confirmation' ], 10, 4 );
+	}
+
 }
 ```
 
