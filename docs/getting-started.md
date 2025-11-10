@@ -9,7 +9,7 @@ Complete guide to setting up a new client plugin using the SMPLFY Core Plugin.
 - SMPLFY Core Plugin installed and activated
 - Access to Gravity Forms admin
 - Basic understanding of PHP and WordPress
-- Code editor with PHP support
+- Code editor with PHP support. (PHPStorm is recommended)
 
 ---
 

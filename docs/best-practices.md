@@ -32,6 +32,9 @@ Processor            // Not descriptive
 - Use Cases: `{Action}Usecase`
 - Adapters: `{System}Adapter`
 
+NOTE: If form name in Gravity Form is verbose or titled with being seen on the front end in mind, use a name that is 
+a general description of what the form does in the context of the plugin. Preferably a name that is a accurate mix of how it's named in GF and it's purpose in the context of a plugin.
+
 ### Properties
 
 **Use camelCase**:

@@ -9,6 +9,9 @@ Step-by-step guide to finding form IDs, field IDs, and workflow step IDs in Grav
 ### Method 1: Forms List (Easiest)
 
 1. Go to **WordPress Admin → Forms**
+2. Find form ID in column next to form name
+
+### Method 2: Edit Form (Via front end)
 2. Hover your mouse over any form name
 3. Look at the bottom left of your browser (or the URL preview)
 4. You'll see: `...admin.php?page=gf_edit_forms&id=5`
@@ -18,14 +21,14 @@ Step-by-step guide to finding form IDs, field IDs, and workflow step IDs in Grav
 - URL shows: `id=5` → Form ID is **5**
 - URL shows: `id=12` → Form ID is **12**
 
-### Method 2: Edit Form
+### Method 3: Edit Form
 
 1. Go to **Forms** and click on a form to edit it
 2. Look at the URL in your browser address bar
 3. Find the `id=` parameter
 4. Example: `admin.php?page=gf_edit_forms&id=5` → Form ID is **5**
 
-### Method 3: Using WP-CLI
+### Method 4: Using WP-CLI
 
 ```bash
 wp gf form list

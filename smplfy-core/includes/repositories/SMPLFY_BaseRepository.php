@@ -75,7 +75,7 @@ abstract class SMPLFY_BaseRepository {
 	 * @return T|null
 	 */
 	public function get_one_for_user( $userId ) {
-		return $this->get_one( [ 'created_by' => $userId ] );
+		return $this->get_one( [ 'created_by' => $userId ,'partial_entry_percent' => ''] );
 	}
 
 	/**
@@ -85,9 +85,9 @@ abstract class SMPLFY_BaseRepository {
 	 *
 	 * @return T|null
 	 */
-	public function get_one( array $filters ) {
+	public function get_one( array $filters, $direction = 'ASC' ) {
 		try {
-			$retrieved_entries = $this->get( $filters );
+			$retrieved_entries = $this->get( $filters, $direction );
 
 			if ( ! empty( $retrieved_entries ) ) {
 				return $retrieved_entries[0];
@@ -223,6 +223,7 @@ abstract class SMPLFY_BaseRepository {
 				$searchCriteria['field_filters'][] = array(
 					'key'   => $key,
 					'value' => $value,
+
 				);
 			}
 		}
