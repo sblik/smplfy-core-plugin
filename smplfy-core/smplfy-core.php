@@ -8,7 +8,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: Smplfy Core
- * Version: 1.0.1
+ * Version: 1.1.0
  * Description: Core logic for a unified development approach across multiple plugins.
  * Author: Simplify Biz
  * Author URI: https://simplifybiz.com
@@ -16,6 +16,16 @@
  */
 
 namespace SmplfyCore;
+
+/**
+ * Plugin version.
+ *
+ * Keep this in sync with the `Version:` header above on every release — WordPress reads
+ * the header to show the current version on the Plugins screen and to compare against an
+ * uploaded zip when you replace the plugin. The constant is available to the rest of the
+ * codebase (e.g. for cache-busting enqueued assets via SMP_CORE_VERSION).
+ */
+define( 'SMP_CORE_VERSION', '1.1.0' );
 
 define( 'SMP_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
