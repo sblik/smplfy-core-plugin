@@ -21,7 +21,7 @@ define( 'SMP_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 require_once SMP_CORE_PLUGIN_DIR . 'includes/utilities/smplfy-security.php';
 require_once SMP_CORE_PLUGIN_DIR . 'includes/utilities/SMPLFY_Require.php';
-require_once SMP_CORE_PLUGIN_DIR . 'includes/gpnf-cookie-prune.php';
+require_once SMP_CORE_PLUGIN_DIR . 'includes/gpnf-session-ttl.php';
 $require = new SMPLFY_Require( SMP_CORE_PLUGIN_DIR );
 
 try {
