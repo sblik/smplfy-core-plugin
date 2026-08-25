@@ -15,7 +15,7 @@ class SMPLFY_Require {
 	 * @param $dir
 	 *
 	 * @return void
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function directory( $dir ) {
 		if ( ! realpath( $dir ) ) {
@@ -23,7 +23,7 @@ class SMPLFY_Require {
 		}
 
 		if ( ! is_dir( $dir ) ) {
-			throw new Exception( "Directory not found: $dir" );
+			throw new \Exception( "Directory not found: $dir" );
 		}
 
 		$items = glob( $dir . '/*' );
@@ -45,13 +45,13 @@ class SMPLFY_Require {
 	 * @param $filePath
 	 *
 	 * @return void
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function file( $filePath ) {
 		$file = $this->pluginDirectory . $filePath;
 
 		if ( ! file_exists( $file ) ) {
-			throw new Exception( "File not found: $file" );
+			throw new \Exception( "File not found: $file" );
 		}
 
 		require_once $file;

@@ -33,7 +33,8 @@ try {
 	$require->directory( 'includes/logger' );
 	$require->directory( 'includes/wp-api' );
 	$require->directory( 'includes/gravity-flow' );
-} catch ( Exception $e ) {
+	$require->directory( 'includes/API' );
+} catch ( \Exception $e ) {
 	error_log( $e->getMessage() );
 }
 
