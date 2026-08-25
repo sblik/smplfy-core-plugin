@@ -8,7 +8,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: Smplfy Core
- * Version: 1.0.1
+ * Version: 1.1.0
  * Description: Core logic for a unified development approach across multiple plugins.
  * Author: Simplify Biz
  * Author URI: https://simplifybiz.com
