@@ -9,6 +9,11 @@ class WpHttpAPIHelper {
 	 * Simplifies use of Wordpress' HTTP API for "wp_remote_post". Passing in false to $useDefaultArgs and passing in an array for $userArgs will override
 	 * the use of default args. The default content-type is json and the array of the request body is encoded before sending the post
 	 *
+	 * Returns the full wp_remote_post response so callers can read the status
+	 * code and the body, or a WP_Error if the request never completed. Read it
+	 * with is_wp_error(), wp_remote_retrieve_response_code() and
+	 * wp_remote_retrieve_body().
+	 *
 	 * @param $url
 	 * @param array $requestBody
 	 * @param bool $useDefaultArgs
@@ -25,10 +30,7 @@ class WpHttpAPIHelper {
 			$args             = $userArgs;
 		}
 
-		$response = wp_remote_post( $url, $args );
-
-		return $response['response'];
-
+		return wp_remote_post( $url, $args );
 	}
 
 	/**
