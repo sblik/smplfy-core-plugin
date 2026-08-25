@@ -3,8 +3,13 @@
 namespace SmplfyCore;
 
 /**
- * Generic Google Chat notifier. Use directly for ad-hoc notifications,
- * or extend it for a specific event source.
+ * Generic Google Chat notifier: resolves the webhook URL, sends a message,
+ * and sanitizes anything a third party controls.
+ *
+ * Deciding which events matter and what a message says is the calling
+ * plugin's job. Hold an instance of this rather than extending it, so a
+ * site's event handling never has to change anything here. Pass $configKey
+ * to read the URL from a site-specific wp-config constant.
  */
 class GoogleChatNotifier
 {
@@ -93,8 +98,9 @@ class GoogleChatNotifier
     }
 
     // Chat has no escape syntax, so strip the characters it reads as markup
-    // before interpolating anything a third party controls
-    protected function sanitizeField($value, int $maxLength = 200): string
+    // before interpolating anything a third party controls. Public because
+    // callers build their own message text and need the same guarantees.
+    public function sanitizeField($value, int $maxLength = 200): string
     {
         $value = is_scalar($value) ? (string) $value : '';
 
@@ -117,7 +123,7 @@ class GoogleChatNotifier
     }
 
     // Only emit a link for a URL that cannot break out of the link markup
-    protected function sanitizeUrl($url): string
+    public function sanitizeUrl($url): string
     {
         $url = is_scalar($url) ? trim((string) $url) : '';
 
